@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/sounds">
+        <file>Assets/Sounds/Wuerfel1.1.wav</file>
+        <file>Assets/Sounds/Wuerfel1.2.wav</file>
+        <file>Assets/Sounds/Wuerfel1.3.wav</file>
+        <file>Assets/Sounds/Wuerfel2.1.wav</file>
+        <file>Assets/Sounds/Wuerfel2.2.wav</file>
+        <file>Assets/Sounds/Wuerfel2.3.wav</file>
+        <file>Assets/Sounds/Wuerfel3.1.wav</file>
+        <file>Assets/Sounds/Wuerfel3.2.wav</file>
+        <file>Assets/Sounds/Wuerfel3.3.wav</file>
+        <file>Assets/Sounds/Wuerfel4.1.wav</file>
+        <file>Assets/Sounds/Wuerfel4.2.wav</file>
+        <file>Assets/Sounds/Wuerfel4.3.wav</file>
+        <file>Assets/Sounds/Wuerfel5.1.wav</file>
+        <file>Assets/Sounds/Wuerfel5.2.wav</file>
+        <file>Assets/Sounds/Wuerfel5.3.wav</file>
+        <file>Assets/Sounds/Wuerfelbecher.wav</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>Assets/Images/Wuerfel1.png</file>
+        <file>Assets/Images/Wuerfel2.png</file>
+        <file>Assets/Images/Wuerfel3.png</file>
+        <file>Assets/Images/Wuerfel4.png</file>
+        <file>Assets/Images/Wuerfel5.png</file>
+        <file>Assets/Images/Wuerfel6.png</file>
+    </qresource>
+</RCC>
