@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QModelIndex>
 #include <QStandardItemModel>
+#include <QLabel>
 
 using namespace std;
 
@@ -22,17 +23,24 @@ public:
     void insertNamesDialog();
     int generateRandomNumbers();
     void rollDices();
+    void setImages(int index, int random);
     ~MainWindow();
 
 public slots:
-    void showInstructionDialog();
-    void changeCubes();
+    void showInstructionDialogSlot();
+    void changeCubesSlot();
+    void setCheckbox1Slot(bool);
+    void setCheckbox2Slot(bool);
+    void setCheckbox3Slot(bool);
+    void setCheckbox4Slot(bool);
+    void setCheckbox5Slot(bool);
     
 private:
     Ui::MainWindow *ui;
     vector<int> m_cubes;
     //if true cubes is fix
     vector<bool> m_fixedCubes;
+
 };
 
 #endif // MAINWINDOW_H

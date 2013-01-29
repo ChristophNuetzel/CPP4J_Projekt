@@ -44,27 +44,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
     m_cubes = vector<int>(5);
     m_fixedCubes = vector<bool>(5);
-    rollDices();
-
-    for(int i = 0; i < m_cubes.size(); i++){
-         cout << m_cubes[i] << endl;
-    }
-
-
-    m_fixedCubes[0] = true;
-    m_fixedCubes[2] = true;
-    rollDices();
-    cout << "---------" << endl;
-
-    for(int i = 0; i < m_cubes.size(); i++){
-         cout << m_cubes[i] << endl;
-    }
-
-
-
-
 
     // Create Table Models
     QStandardItemModel *modelLeftTable = new QStandardItemModel(6,1,this);
@@ -85,30 +67,93 @@ MainWindow::~MainWindow()
 
 void MainWindow::rollDices(){
     for(int i = 0; i < m_cubes.size(); i++){
-        if(m_fixedCubes[i] != true ){
+        if( m_fixedCubes[i] != true ){
             m_cubes[i] = generateRandomNumbers();
+            setImages(i, m_cubes[i]);
         }
     }
 }
 
-int MainWindow::generateRandomNumbers(){
-    int random_integer = 1 + (rand() % 5 );
-    return random_integer;
+void MainWindow::setImages(int index, int random){
+    QLabel *image1 = new QLabel();
+    cout <<"index: " << index << " random: " << random << endl;
+    switch(random)
+    {
+    case 1: image1->setPixmap(QPixmap("../images/wuerfel1.gif"));
+        break;
+    case 2: image1->setPixmap(QPixmap("../images/wuerfel2.gif"));
+        break;
+    case 3: image1->setPixmap(QPixmap("../images/wuerfel3.gif"));
+        break;
+    case 4: image1->setPixmap(QPixmap("../images/wuerfel4.gif"));
+        break;
+    case 5: image1->setPixmap(QPixmap("../images/wuerfel5.gif"));
+        break;
+    case 6: image1->setPixmap(QPixmap("../images/wuerfel6.gif"));
+        break;
+    }
+
+   ui->kubesGridLayout->addWidget(image1, 0, index, 1, 1, Qt::AlignCenter);
 }
 
-void MainWindow::changeCubes(){
-    //int = MainWindow::generateRandomNumbers();
+int MainWindow::generateRandomNumbers(){
+    int random_integer = 1 + (rand() % 6 );
+    return random_integer;
+}
+// Slot
+void MainWindow::setCheckbox1Slot( bool b ){
+    if(b == true){
+        m_fixedCubes[0] = true;
+    }else{
+        m_fixedCubes[0] = false;
+    }
+}
+// Slot
+void MainWindow::setCheckbox2Slot( bool b ){
+    if(b == true){
+        m_fixedCubes[1] = true;
+    }else{
+        m_fixedCubes[1] = false;
+    }
+}
+// Slot
+void MainWindow::setCheckbox3Slot( bool b ){
+    if(b == true){
+        m_fixedCubes[2] = true;
+    }else{
+        m_fixedCubes[2] = false;
+    }
+}
+// Slot
+void MainWindow::setCheckbox4Slot( bool b ){
+    if(b == true){
+        m_fixedCubes[3] = true;
+    }else{
+        m_fixedCubes[3] = false;
+    }
+}
+// Slot
+void MainWindow::setCheckbox5Slot( bool b ){
+    if(b == true){
+        m_fixedCubes[4] = true;
+    }else{
+        m_fixedCubes[4] = false;
+    }
+}
+// Slot
+void MainWindow::changeCubesSlot(){
+    rollDices();
+    cout << "---" << endl;
 }
 
 // Slot
-void MainWindow::showInstructionDialog(){
+void MainWindow::showInstructionDialogSlot(){
     cout << "skldjf";
     InstructionDialog *dialog = new InstructionDialog;
     dialog->setWindowTitle("Instruction Dialog");
     dialog->show();
 }
 
-// Slot
 void MainWindow::insertNamesDialog(){
     cout << "skldjf";
     InsertNamesDialog *dialog = new InsertNamesDialog;
@@ -118,10 +163,7 @@ void MainWindow::insertNamesDialog(){
 
 void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable){
 
-    connect(ui->instructionButton, SIGNAL(clicked()), this, SLOT(showInstructionDialog()));
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(changeCubes()));
-
-    ui->centralWidget->setStyleSheet("background: rgb(220,220,220)");
+        ui->centralWidget->setStyleSheet("background: rgb(220,220,220)");
 
     // Set Table 1 & 2 Column Names
     modelLeftTable->setHorizontalHeaderItem(0, new QStandardItem(QString("Player 1")));
@@ -196,13 +238,11 @@ void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemMode
     QLabel *image3 = new QLabel();
     QLabel *image4 = new QLabel();
     QLabel *image5 = new QLabel();
-    QLabel *image6 = new QLabel();
-    image1->setPixmap(QPixmap("../images/Wuerfel1.png"));
+    image1->setPixmap(QPixmap("../images/wuerfel1.gif"));
     image2->setPixmap(QPixmap("../images/wuerfel2.gif"));
     image3->setPixmap(QPixmap("../images/wuerfel3.gif"));
     image4->setPixmap(QPixmap("../images/wuerfel4.gif"));
     image5->setPixmap(QPixmap("../images/wuerfel5.gif"));
-    image6->setPixmap(QPixmap("../images/wuerfel6.gif"));
 
     // Create Checkboxes
     QCheckBox *box1 = new QCheckBox();
@@ -210,7 +250,6 @@ void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemMode
     QCheckBox *box3 = new QCheckBox();
     QCheckBox *box4 = new QCheckBox();
     QCheckBox *box5 = new QCheckBox();
-    QCheckBox *box6 = new QCheckBox();
 
     // Add Images & Checkboxes to GridLayout
     ui->kubesGridLayout->addWidget(image1, 0, 0, 1, 1, Qt::AlignCenter);
@@ -218,13 +257,20 @@ void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemMode
     ui->kubesGridLayout->addWidget(image3, 0, 2, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(image4, 0, 3, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(image5, 0, 4, 1, 1, Qt::AlignCenter);
-    ui->kubesGridLayout->addWidget(image6, 0, 5, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(box1, 1, 0, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(box2, 1, 1, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(box3, 1, 2, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(box4, 1, 3, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(box5, 1, 4, 1, 1, Qt::AlignCenter);
-    ui->kubesGridLayout->addWidget(box6, 1, 5, 1, 1, Qt::AlignCenter);
+
+    connect(ui->instructionButton, SIGNAL(clicked()), this, SLOT(showInstructionDialogSlot()));
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(changeCubesSlot()));
+    connect(box1, SIGNAL(toggled(bool)), this, SLOT(setCheckbox1Slot(bool)) );
+    connect(box2, SIGNAL(toggled(bool)), this, SLOT(setCheckbox2Slot(bool)) );
+    connect(box3, SIGNAL(toggled(bool)), this, SLOT(setCheckbox3Slot(bool)) );
+    connect(box4, SIGNAL(toggled(bool)), this, SLOT(setCheckbox4Slot(bool)) );
+    connect(box5, SIGNAL(toggled(bool)), this, SLOT(setCheckbox5Slot(bool)) );
+
 }
 
 void MainWindow::fillTableWithStuff(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable){

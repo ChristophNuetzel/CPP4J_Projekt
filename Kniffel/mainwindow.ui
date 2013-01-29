@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>567</width>
-    <height>598</height>
+    <width>585</width>
+    <height>603</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>585</width>
+    <height>603</height>
+   </size>
   </property>
   <property name="maximumSize">
    <size>
@@ -37,8 +43,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>545</width>
-         <height>522</height>
+         <width>563</width>
+         <height>527</height>
         </rect>
        </property>
        <widget class="QWidget" name="gridLayoutWidget">
@@ -312,7 +318,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>567</width>
+     <width>585</width>
      <height>20</height>
     </rect>
    </property>
