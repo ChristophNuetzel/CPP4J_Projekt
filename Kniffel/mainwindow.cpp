@@ -16,6 +16,7 @@
 
 using namespace std;
 
+//to store in extra classes
 class InstructionDialog : public QDialog
 {
 public:
@@ -26,6 +27,7 @@ public:
     }
 };
 
+//to store in extra classes
 class InsertNamesDialog : public QDialog
 {
 public:
@@ -36,13 +38,33 @@ public:
     }
 };
 
-
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    m_cubes = vector<int>(5);
+    m_fixedCubes = vector<bool>(5);
+    rollDices();
+
+    for(int i = 0; i < m_cubes.size(); i++){
+         cout << m_cubes[i] << endl;
+    }
+
+
+    m_fixedCubes[0] = true;
+    m_fixedCubes[2] = true;
+    rollDices();
+    cout << "---------" << endl;
+
+    for(int i = 0; i < m_cubes.size(); i++){
+         cout << m_cubes[i] << endl;
+    }
+
+
+
+
 
     // Create Table Models
     QStandardItemModel *modelLeftTable = new QStandardItemModel(6,1,this);
@@ -51,19 +73,34 @@ MainWindow::MainWindow(QWidget *parent) :
     initTable(modelLeftTable, modelRightTable);
     fillTableWithStuff(modelLeftTable, modelRightTable);
 
-
-    //QStringList *qstring = new QStringList();
-    //*qstring << "a" << "b" << "c" << "d" << "e" << "f" ;
-    //model->setVerticalHeaderLabels(*qstring);
+    QStringList *qstring = new QStringList();
+    *qstring << "a" << "b" << "c" << "d" << "e" << "f" ;
 
 }
-
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+void MainWindow::rollDices(){
+    for(int i = 0; i < m_cubes.size(); i++){
+        if(m_fixedCubes[i] != true ){
+            m_cubes[i] = generateRandomNumbers();
+        }
+    }
+}
+
+int MainWindow::generateRandomNumbers(){
+    int random_integer = 1 + (rand() % 5 );
+    return random_integer;
+}
+
+void MainWindow::changeCubes(){
+    //int = MainWindow::generateRandomNumbers();
+}
+
+// Slot
 void MainWindow::showInstructionDialog(){
     cout << "skldjf";
     InstructionDialog *dialog = new InstructionDialog;
@@ -71,6 +108,7 @@ void MainWindow::showInstructionDialog(){
     dialog->show();
 }
 
+// Slot
 void MainWindow::insertNamesDialog(){
     cout << "skldjf";
     InsertNamesDialog *dialog = new InsertNamesDialog;
@@ -80,7 +118,8 @@ void MainWindow::insertNamesDialog(){
 
 void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable){
 
-    connect(ui->instructionButton, SIGNAL(clicked()), this, SLOT(showInstructionDialog()) );
+    connect(ui->instructionButton, SIGNAL(clicked()), this, SLOT(showInstructionDialog()));
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(changeCubes()));
 
     ui->centralWidget->setStyleSheet("background: rgb(220,220,220)");
 
@@ -158,7 +197,7 @@ void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemMode
     QLabel *image4 = new QLabel();
     QLabel *image5 = new QLabel();
     QLabel *image6 = new QLabel();
-    image1->setPixmap(QPixmap("../images/wuerfel1.gif"));
+    image1->setPixmap(QPixmap("../images/Wuerfel1.png"));
     image2->setPixmap(QPixmap("../images/wuerfel2.gif"));
     image3->setPixmap(QPixmap("../images/wuerfel3.gif"));
     image4->setPixmap(QPixmap("../images/wuerfel4.gif"));
