@@ -16,15 +16,27 @@
 
 using namespace std;
 
-class Dialog : public QDialog
+class InstructionDialog : public QDialog
 {
 public:
-    Dialog()
+    InstructionDialog()
     {
-        QPushButton *button = new QPushButton("empty button", this);
-        this->resize(300,50);
+        //implement the dialog content here
+        this->resize(300,150);
     }
 };
+
+class InsertNamesDialog : public QDialog
+{
+public:
+    InsertNamesDialog()
+    {
+        //implement the dialog content here
+        this->resize(300,150);
+    }
+};
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -54,14 +66,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::showInstructionDialog(){
     cout << "skldjf";
-    Dialog *dialog = new Dialog;
+    InstructionDialog *dialog = new InstructionDialog;
     dialog->setWindowTitle("Instruction Dialog");
     dialog->show();
 }
 
 void MainWindow::insertNamesDialog(){
     cout << "skldjf";
-    Dialog *dialog = new Dialog;
+    InsertNamesDialog *dialog = new InsertNamesDialog;
     dialog->setWindowTitle("Insert Names Dialog");
     dialog->show();
 }
@@ -187,22 +199,8 @@ void MainWindow::fillTableWithStuff(QStandardItemModel *modelLeftTable, QStandar
     modelLeftTable->setItem( 5, 1, bla2);
     modelLeftTable->setItem( 8, 1, bla3);
 
-    connect(ui->leftTableView, SIGNAL( clicked(const QModelIndex &) ),
-            this, SLOT(cellselected(const QModelIndex & )) );
+    //connect(ui->leftTableView, SIGNAL( clicked(const QModelIndex &) ),
+            //this, SLOT(cellselected(const QModelIndex & )) );
 }
 
-void MainWindow::setText(){
-    ui->currentPlayer->setText("clicked");
-}
 
-void MainWindow::cellselected(const QModelIndex & index){
-    if(index.row() == 4 && index.column() == 0){
-        ui->currentPlayer->setText("clicked");
-    }else{
-        ui->currentPlayer->setText("daneben");
-    }
-    // index.child(4,0)
-
-
-
-}

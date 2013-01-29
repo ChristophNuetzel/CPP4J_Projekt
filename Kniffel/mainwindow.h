@@ -21,8 +21,6 @@ public:
     ~MainWindow();
 
 public slots:
-    void setText();
-    void cellselected(const QModelIndex & index);
     void showInstructionDialog();
 
     
