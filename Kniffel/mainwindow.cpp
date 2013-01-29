@@ -13,6 +13,7 @@
 #include <signal.h>
 #include <QCheckBox>
 
+
 using namespace std;
 
 class Dialog : public QDialog
@@ -20,10 +21,8 @@ class Dialog : public QDialog
 public:
     Dialog()
     {
-        QDialog *subDialog = new QDialog;
-        subDialog->setWindowTitle("Sub Dialog");
-        QPushButton *button = new QPushButton("Push to open new dialog", this);
-       // connect(button, SIGNAL(clicked()), subDialog, SLOT(show()));
+        QPushButton *button = new QPushButton("empty button", this);
+        this->resize(300,50);
     }
 };
 
@@ -32,11 +31,46 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->centralWidget->setStyleSheet("background: rgb(220,220,220)");
 
     // Create Table Models
     QStandardItemModel *modelLeftTable = new QStandardItemModel(6,1,this);
     QStandardItemModel *modelRightTable = new QStandardItemModel(5,1,this);
+
+    initTable(modelLeftTable, modelRightTable);
+    fillTableWithStuff(modelLeftTable, modelRightTable);
+
+
+    //QStringList *qstring = new QStringList();
+    //*qstring << "a" << "b" << "c" << "d" << "e" << "f" ;
+    //model->setVerticalHeaderLabels(*qstring);
+
+}
+
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::showInstructionDialog(){
+    cout << "skldjf";
+    Dialog *dialog = new Dialog;
+    dialog->setWindowTitle("Instruction Dialog");
+    dialog->show();
+}
+
+void MainWindow::insertNamesDialog(){
+    cout << "skldjf";
+    Dialog *dialog = new Dialog;
+    dialog->setWindowTitle("Insert Names Dialog");
+    dialog->show();
+}
+
+void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable){
+
+    connect(ui->instructionButton, SIGNAL(clicked()), this, SLOT(showInstructionDialog()) );
+
+    ui->centralWidget->setStyleSheet("background: rgb(220,220,220)");
 
     // Set Table 1 & 2 Column Names
     modelLeftTable->setHorizontalHeaderItem(0, new QStandardItem(QString("Player 1")));
@@ -106,12 +140,12 @@ MainWindow::MainWindow(QWidget *parent) :
     modelRightTable->setVerticalHeaderItem(4, total);
 
     // Create Images für Kubes
-    QLabel *image1 = new QLabel(parent);
-    QLabel *image2 = new QLabel(parent);
-    QLabel *image3 = new QLabel(parent);
-    QLabel *image4 = new QLabel(parent);
-    QLabel *image5 = new QLabel(parent);
-    QLabel *image6 = new QLabel(parent);
+    QLabel *image1 = new QLabel();
+    QLabel *image2 = new QLabel();
+    QLabel *image3 = new QLabel();
+    QLabel *image4 = new QLabel();
+    QLabel *image5 = new QLabel();
+    QLabel *image6 = new QLabel();
     image1->setPixmap(QPixmap("../images/wuerfel1.gif"));
     image2->setPixmap(QPixmap("../images/wuerfel2.gif"));
     image3->setPixmap(QPixmap("../images/wuerfel3.gif"));
@@ -120,12 +154,12 @@ MainWindow::MainWindow(QWidget *parent) :
     image6->setPixmap(QPixmap("../images/wuerfel6.gif"));
 
     // Create Checkboxes
-    QCheckBox *box1 = new QCheckBox(parent);
-    QCheckBox *box2 = new QCheckBox(parent);
-    QCheckBox *box3 = new QCheckBox(parent);
-    QCheckBox *box4 = new QCheckBox(parent);
-    QCheckBox *box5 = new QCheckBox(parent);
-    QCheckBox *box6 = new QCheckBox(parent);
+    QCheckBox *box1 = new QCheckBox();
+    QCheckBox *box2 = new QCheckBox();
+    QCheckBox *box3 = new QCheckBox();
+    QCheckBox *box4 = new QCheckBox();
+    QCheckBox *box5 = new QCheckBox();
+    QCheckBox *box6 = new QCheckBox();
 
     // Add Images & Checkboxes to GridLayout
     ui->kubesGridLayout->addWidget(image1, 0, 0, 1, 1, Qt::AlignCenter);
@@ -140,24 +174,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->kubesGridLayout->addWidget(box4, 1, 3, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(box5, 1, 4, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(box6, 1, 5, 1, 1, Qt::AlignCenter);
+}
 
+void MainWindow::fillTableWithStuff(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable){
 
-    //QStandardItem *test = new QStandardItem(QString("irgendwas"));
-
-    //Add to model
-    //model->setItem(0,0,firstRow);
-    //model->setItem(1,0,secondRow);
-    //model->setItem(2,0,thirdRow);
-    //model->setItem(3,0,fourthRow);
-    //model->setItem(4,0,fifthRow);
-    //model->setItem(5,0,test);
-
-
-    //QStringList *qstring = new QStringList();
-    //*qstring << "a" << "b" << "c" << "d" << "e" << "f" ;
-    //model->setVerticalHeaderLabels(*qstring);
-
-    // Example
     QStandardItem *bla = new QStandardItem(QString("15"));
     QStandardItem *bla1 = new QStandardItem(QString("28"));
     QStandardItem *bla2 = new QStandardItem(QString("18"));
@@ -167,12 +187,22 @@ MainWindow::MainWindow(QWidget *parent) :
     modelLeftTable->setItem( 5, 1, bla2);
     modelLeftTable->setItem( 8, 1, bla3);
 
-
+    connect(ui->leftTableView, SIGNAL( clicked(const QModelIndex &) ),
+            this, SLOT(cellselected(const QModelIndex & )) );
 }
 
+void MainWindow::setText(){
+    ui->currentPlayer->setText("clicked");
+}
+
+void MainWindow::cellselected(const QModelIndex & index){
+    if(index.row() == 4 && index.column() == 0){
+        ui->currentPlayer->setText("clicked");
+    }else{
+        ui->currentPlayer->setText("daneben");
+    }
+    // index.child(4,0)
 
 
-MainWindow::~MainWindow()
-{
-    delete ui;
+
 }

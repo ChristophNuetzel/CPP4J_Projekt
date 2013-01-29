@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QModelIndex>
+#include <QStandardItemModel>
 
 namespace Ui {
 class MainWindow;
@@ -13,7 +15,16 @@ class MainWindow : public QMainWindow
     
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void initTable(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable);
+    void fillTableWithStuff(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable);
+    void insertNamesDialog();
     ~MainWindow();
+
+public slots:
+    void setText();
+    void cellselected(const QModelIndex & index);
+    void showInstructionDialog();
+
     
 private:
     Ui::MainWindow *ui;
