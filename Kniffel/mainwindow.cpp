@@ -45,7 +45,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
     m_cubes = vector<int>(5);
     m_fixedCubes = vector<bool>(5);
 
@@ -58,8 +57,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QStringList *qstring = new QStringList();
     *qstring << "a" << "b" << "c" << "d" << "e" << "f" ;
-
-
 }
 
 MainWindow::~MainWindow()
