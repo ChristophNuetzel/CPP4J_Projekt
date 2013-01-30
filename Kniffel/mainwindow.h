@@ -24,6 +24,7 @@ public:
     int generateRandomNumbers();
     void rollDices();
     void setImages(int index, int random);
+    void fillLeftTableWithModelData(QStandardItemModel *modelLeftTable, vector<int> v, int column);
     ~MainWindow();
 
 public slots:
@@ -40,6 +41,7 @@ private:
     vector<int> m_cubes;
     //if true cubes is fix
     vector<bool> m_fixedCubes;
+    vector<int> m_test;
 
 };
 

@@ -12,8 +12,7 @@
 #include <QDialog>
 #include <signal.h>
 #include <QCheckBox>
-
-
+#include <string.h>
 
 using namespace std;
 
@@ -53,10 +52,22 @@ MainWindow::MainWindow(QWidget *parent) :
     QStandardItemModel *modelRightTable = new QStandardItemModel(5,1,this);
 
     initTable(modelLeftTable, modelRightTable);
-    fillTableWithStuff(modelLeftTable, modelRightTable);
+    //fillTableWithStuff(modelLeftTable, modelRightTable);
 
-    QStringList *qstring = new QStringList();
-    *qstring << "a" << "b" << "c" << "d" << "e" << "f" ;
+    // Test Method fillLeftTableWithModelData
+    m_test = vector<int>(13);
+    m_test[0] = 2;
+    m_test[1] = 4;
+    m_test[2] = 2;
+    m_test[3] = 4;
+    m_test[4] = 2;
+    m_test[5] = 4;
+    m_test[6] = 2;
+    m_test[7] = 4;
+
+    fillLeftTableWithModelData(modelLeftTable, m_test, 0);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -114,10 +125,18 @@ void MainWindow::showInstructionDialogSlot(){
 
 // Start Dialog to insert user names
 void MainWindow::insertNamesDialog(){
-    cout << "skldjf";
     InsertNamesDialog *dialog = new InsertNamesDialog;
     dialog->setWindowTitle("Insert Names Dialog");
     dialog->show();
+}
+
+void MainWindow::fillLeftTableWithModelData(QStandardItemModel *modelLeftTable, vector<int> v, int column){
+    for(int i = 0; i < v.size(); i++){
+        QString value = QString::number(v[i]);
+        QStandardItem *item = new QStandardItem(value);
+        cout << "v[i]: " << v[i] << " value: " << value.toStdString() << endl;
+        modelLeftTable->setItem (i, column, item);
+    }
 }
 
 // Initialize Table Content
@@ -225,12 +244,11 @@ void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemMode
 
     connect(ui->instructionButton, SIGNAL(clicked()), this, SLOT(showInstructionDialogSlot()));
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(changeCubesSlot()));
-    connect(box1, SIGNAL(toggled(bool)), this, SLOT(setCheckbox1Slot(bool)) );
-    connect(box2, SIGNAL(toggled(bool)), this, SLOT(setCheckbox2Slot(bool)) );
-    connect(box3, SIGNAL(toggled(bool)), this, SLOT(setCheckbox3Slot(bool)) );
-    connect(box4, SIGNAL(toggled(bool)), this, SLOT(setCheckbox4Slot(bool)) );
-    connect(box5, SIGNAL(toggled(bool)), this, SLOT(setCheckbox5Slot(bool)) );
-
+    connect(box1, SIGNAL(toggled(bool)), this, SLOT(setCheckbox1Slot(bool)));
+    connect(box2, SIGNAL(toggled(bool)), this, SLOT(setCheckbox2Slot(bool)));
+    connect(box3, SIGNAL(toggled(bool)), this, SLOT(setCheckbox3Slot(bool)));
+    connect(box4, SIGNAL(toggled(bool)), this, SLOT(setCheckbox4Slot(bool)));
+    connect(box5, SIGNAL(toggled(bool)), this, SLOT(setCheckbox5Slot(bool)));
 }
 
 // Fills the table with some stupid numbers
@@ -289,6 +307,3 @@ void MainWindow::setCheckbox5Slot( bool b ){
         m_fixedCubes[4] = false;
     }
 }
-
-
-
