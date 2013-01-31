@@ -108,9 +108,17 @@ int threeOfAKindValue(vector<int>& dices)
     }
 }
 
-int FourOfAKindValue(vector<int>& dices)
+int fourOfAKindValue(vector<int>& dices)
 {
-    return 0;
+    int result = 0;
+    if (containsFourOfAKind(dices) != 0) {
+        for (vector<int>::iterator it = dices.begin(); it != dices.end(); ++it) {
+                result += *it;
+        }
+        return result;
+    } else {
+        return result;
+    }
 }
 
 int fullHouseValue(vector<int>& dices)
@@ -159,7 +167,7 @@ vector<int> calculatePointValues(vector<int> dices)
     result[5] = sixesValue(dices);
 
     result[6] = threeOfAKindValue(dices);
-    result[7] = FourOfAKindValue(dices);
+    result[7] = fourOfAKindValue(dices);
     result[8] = fullHouseValue(dices);
     result[9] = smallStraightValue(dices);
     result[10] = largeStraightValue(dices);
