@@ -18,11 +18,18 @@
         <file>Assets/Sounds/Wuerfelbecher.wav</file>
     </qresource>
     <qresource prefix="/images">
-        <file>Assets/Images/Wuerfel1.png</file>
-        <file>Assets/Images/Wuerfel2.png</file>
-        <file>Assets/Images/Wuerfel3.png</file>
-        <file>Assets/Images/Wuerfel4.png</file>
-        <file>Assets/Images/Wuerfel5.png</file>
-        <file>Assets/Images/Wuerfel6.png</file>
+        <file alias="W1">Assets/Images/Wuerfel1.png</file>
+        <file alias="W2">Assets/Images/Wuerfel2.png</file>
+        <file alias="W3">Assets/Images/Wuerfel3.png</file>
+        <file alias="W4">Assets/Images/Wuerfel4.png</file>
+        <file alias="W5">Assets/Images/Wuerfel5.png</file>
+        <file alias="W6">Assets/Images/Wuerfel6.png</file>
+        <file alias="test">Assets/Images/other/test.jpg</file>
+        <file alias="w1">Assets/Images/other/wuerfel1.gif</file>
+        <file alias="w2">Assets/Images/other/wuerfel2.gif</file>
+        <file alias="w3">Assets/Images/other/wuerfel3.gif</file>
+        <file alias="w4">Assets/Images/other/wuerfel4.gif</file>
+        <file alias="w5">Assets/Images/other/wuerfel5.gif</file>
+        <file alias="w6">Assets/Images/other/wuerfel6.gif</file>
     </qresource>
 </RCC>
