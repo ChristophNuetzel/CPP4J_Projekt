@@ -28,6 +28,8 @@ public:
      * large straight   (10)
      * yahtzee          (11)
      * chance           (12)
+     *
+     *The given vector<int> must have the length of 6!
      */
     static std::vector<int> calculatePointValues(std::vector<int> dices);
 };

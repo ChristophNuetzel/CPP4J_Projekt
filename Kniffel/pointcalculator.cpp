@@ -7,34 +7,46 @@ PointCalculator::PointCalculator(QObject *parent) :
 {
 }
 
+int calculatePointsForGivenNumber(int number, vector<int>& dices)
+{
+    int result = 0;
+
+    for (vector<int>::iterator it = dices.begin(); it != dices.end(); ++it) {
+        if (*it == number) {
+            result += number;
+        }
+    }
+    return result;
+}
+
 int onesValue(vector<int>& dices)
 {
-    return 0;
+    return calculatePointsForGivenNumber(1, dices);
 }
 
 int twosValue(vector<int>& dices)
 {
-    return 0;
+    return calculatePointsForGivenNumber(2, dices);
 }
 
 int threesValue(vector<int>& dices)
 {
-    return 0;
+    return calculatePointsForGivenNumber(3, dices);
 }
 
 int foursValue(vector<int>& dices)
 {
-    return 0;
+    return calculatePointsForGivenNumber(4, dices);
 }
 
 int fivesValue(vector<int>& dices)
 {
-    return 0;
+    return calculatePointsForGivenNumber(5, dices);
 }
 
 int sixesValue(vector<int>& dices)
 {
-    return 0;
+    return calculatePointsForGivenNumber(6, dices);
 }
 
 int threeOfAKindValue(vector<int>& dices)
