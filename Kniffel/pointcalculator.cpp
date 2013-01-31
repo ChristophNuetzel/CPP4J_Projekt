@@ -123,7 +123,28 @@ int fourOfAKindValue(vector<int>& dices)
 
 int fullHouseValue(vector<int>& dices)
 {
-    return 0;
+    int result = 0;
+    int counter = 0;
+
+    int valueOfThreeDices = containsThreeOfAKind(dices);
+
+    if (valueOfThreeDices != 0) {
+
+            for (vector<int>::iterator itOuter = dices.begin(); itOuter != dices.end(); ++itOuter) {
+                counter = 0;
+                for (vector<int>::iterator itInner = dices.begin(); itInner != dices.end(); ++itInner) {
+                    if (*itInner != valueOfThreeDices && *itInner == *itOuter) {
+                        counter++;
+                    }
+                }
+                if (counter == 2)
+                {
+                    return 25;
+                }
+            }
+    }
+
+    return result;
 }
 
 int smallStraightValue(vector<int>& dices)
