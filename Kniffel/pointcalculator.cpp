@@ -19,6 +19,52 @@ int calculatePointsForGivenNumber(int number, vector<int>& dices)
     return result;
 }
 
+/*Checks if 3 values of the vector are equal.
+ *Returns the value of the number which exists three times.
+ *Returns 0 if there isn't a Three-Of-A-Kind in the vector.
+ **/
+int containsThreeOfAKind(vector<int>& dices)
+{
+    int counter;
+    for (vector<int>::iterator itOuter = dices.begin(); itOuter != dices.end(); ++itOuter) {
+        counter = 0;
+        for (vector<int>::iterator itInner = dices.begin(); itInner != dices.end(); ++itInner) {
+            if (*itInner == *itOuter) {
+                counter++;
+            }
+        }
+        if (counter >= 3)
+        {
+            return *itOuter;
+        }
+    }
+
+    return 0;
+}
+
+/*Checks if 4 values of the vector are equal.
+ *Returns the value of the number which exists four times.
+ *Returns 0 if there isn't a Four-Of-A-Kind in the vector.
+ **/
+int containsFourOfAKind(vector<int>& dices)
+{
+    int counter;
+    for (vector<int>::iterator itOuter = dices.begin(); itOuter != dices.end(); ++itOuter) {
+        counter = 0;
+        for (vector<int>::iterator itInner = dices.begin(); itInner != dices.end(); ++itInner) {
+            if (*itInner == *itOuter) {
+                counter++;
+            }
+        }
+        if (counter >= 4)
+        {
+            return *itOuter;
+        }
+    }
+
+    return 0;
+}
+
 int onesValue(vector<int>& dices)
 {
     return calculatePointsForGivenNumber(1, dices);
@@ -76,12 +122,21 @@ int largeStraightValue(vector<int>& dices)
 
 int yahtzeeValue(vector<int>& dices)
 {
-    return 0;
+    if (dices[0] == dices[1] && dices[0] == dices[2] && dices[0] == dices[3] && dices[0] == dices[4]) {
+        return 50;
+    } else {
+        return 0;
+    }
 }
 
 int chanceValue(vector<int>& dices)
 {
-    return 0;
+    int result = 0;
+
+    for (vector<int>::iterator it = dices.begin(); it != dices.end(); ++it) {
+            result += *it;
+    }
+    return result;
 }
 
 vector<int> calculatePointValues(vector<int> dices)
