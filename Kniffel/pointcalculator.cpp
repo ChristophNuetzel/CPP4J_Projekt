@@ -97,7 +97,15 @@ int sixesValue(vector<int>& dices)
 
 int threeOfAKindValue(vector<int>& dices)
 {
-    return 0;
+    int result = 0;
+    if (containsThreeOfAKind(dices) != 0) {
+        for (vector<int>::iterator it = dices.begin(); it != dices.end(); ++it) {
+                result += *it;
+        }
+        return result;
+    } else {
+        return result;
+    }
 }
 
 int FourOfAKindValue(vector<int>& dices)
