@@ -155,7 +155,27 @@ int smallStraightValue(vector<int>& dices)
 
 int largeStraightValue(vector<int>& dices)
 {
-    return 0;
+    vector<int>::iterator finder1;
+    vector<int>::iterator finder2;
+    vector<int>::iterator finder3;
+    vector<int>::iterator finder4;
+    vector<int>::iterator finder5;
+    vector<int>::iterator finder6;
+
+    finder1 = find(dices.begin(), dices.end(), 1);
+    finder2 = find(dices.begin(), dices.end(), 2);
+    finder3 = find(dices.begin(), dices.end(), 3);
+    finder4 = find(dices.begin(), dices.end(), 4);
+    finder5 = find(dices.begin(), dices.end(), 5);
+    finder6 = find(dices.begin(), dices.end(), 6);
+
+    if (finder1 != dices.end() && finder2 !=dices.end() && finder3 !=dices.end() && finder4 !=dices.end() && finder5 !=dices.end()){
+        return 40;
+    } else if (finder2 !=dices.end() && finder3 !=dices.end() && finder4 !=dices.end() && finder5 != dices.end() && finder6 != dices.end()) {
+        return 40;
+    } else{
+        return 0;
+    }
 }
 
 int yahtzeeValue(vector<int>& dices)
