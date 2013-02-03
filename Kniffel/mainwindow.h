@@ -5,7 +5,7 @@
 #include <QModelIndex>
 #include <QStandardItemModel>
 #include <QLabel>
-#include <Player.h>
+#include <player.h>
 
 using namespace std;
 
@@ -52,7 +52,8 @@ private:
     vector<int> m_test;
     QStandardItemModel *m_modelLeftTable;
     QStandardItemModel *m_modelRightTable;
-    vector<Player::Player> m_players;
+    Player *m_player1;
+    Player *m_player2;
 
 };
 

@@ -17,6 +17,7 @@
 #include <pointcalculator.h>
 #include <QString>
 
+
 using namespace std;
 
 //to store in extra classes
@@ -88,8 +89,12 @@ MainWindow::MainWindow(QWidget *parent) :
     m_modelRightTable = new QStandardItemModel(5,1,this);
 
     initTable();
-    //m_players = vector<Player::Player>(2);
-    //m_players[0] = Player::Player(QString("Thomas"));
+    //QString str = QString("skldf");
+    m_player1 = new Player::Player(QString("Thomas"));
+    m_player2 = new Player::Player(QString("Christoph"));
+
+
+
 }
 
 MainWindow::~MainWindow()
@@ -105,7 +110,23 @@ void MainWindow::rollDices(){
         }
     }
     vector<int> points = PointCalculator::calculatePointValues(m_cubes);
-    fillLeftTableWithModelData(points, 1);
+    vector<int> userPoints = m_player1->getPointList();
+    vector<int> resultPoint = vector<int>(13);
+
+    for (int i = 0; i < points.size(); i++){
+        if(userPoints[i] != -1){
+            resultPoint[i] = userPoints[i];
+        }else{
+            resultPoint[i] = points[i];
+        }
+    }
+    fillLeftTableWithModelData(resultPoint, 1);
+
+    for(int i=0; i < userPoints.size(); i++){
+        if(userPoints[i] != -1){
+            m_modelLeftTable->item(i,1)->setEnabled(false);
+        }
+    }
 }
 
 void MainWindow::setImages(int index, int random){
@@ -271,6 +292,9 @@ void MainWindow::initTable(){
             this, SLOT(leftTableCellClick(const QModelIndex & )));
     connect(ui->rightTableView, SIGNAL(clicked(const QModelIndex &) ),
             this, SLOT(rightTableCellClick(const QModelIndex & )));
+
+    ui->leftTableView->setStyleSheet("font-weight:bold; background-color: white");
+
 }
 
 
@@ -312,7 +336,20 @@ void MainWindow::changeNamesClicked(){
 void MainWindow::leftTableCellClick(const QModelIndex & index ){
     int row = index.row();
     int column = index.column();
-    cout << "Klick Spalte/Reihe : " << column << " / " << row << endl;
+
+    vector<int> currentPoints = m_player1->getPointList();
+
+    if (currentPoints[row] == -1 ){
+        m_player1->setPointValue(row, (PointCalculator::calculatePointValues(m_cubes)[row]));
+        cout << "Klick Spalte/Reihe : " << column << " / " << row  << endl;
+        QBrush *brush = new QBrush(QColor(0, 255, 204));
+        brush->setStyle(Qt::SolidPattern);
+        //m_modelLeftTable->item(row,column)->setData(QVariant::Brush,Qt::EditRole);
+        //m_modelLeftTable->item(row,column)->setBackground(QBrush(Qt::));
+        m_modelLeftTable->item(row,column)->setEnabled(false);
+    } else {
+        cout << "Punkt schon vergeben" << endl;
+    }
 }
 
 // Slot - To Do
