@@ -40,12 +40,12 @@ public:
     /*This method stores a point value for this player.
      *The given int-vaue orderIndex matches the point category as seen in the getPointList-method!
      */
-    void setPointValue(int orderIndex);
+    void setPointValue(int orderIndex, int pointValue);
 
 private:
 
     QString m_playerName;
-    std::map m_pointValues;
+    std::map<int,int> m_pointValues;
 };
 
 #endif // PLAYER_H
