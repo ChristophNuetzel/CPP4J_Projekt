@@ -38,7 +38,6 @@ public:
 class InsertNamesDialog : public QDialog
 {
 
-
 public:
     InsertNamesDialog()
     {
@@ -62,13 +61,16 @@ public:
 
         setLayout(layout);
 
-        MainWindow *m = new MainWindow();
-
-        connect(okButton, SIGNAL(clicked()), m, SLOT(changeNamesClicked()));
+        //connect(okButton, SIGNAL(clicked()), this, SLOT(changeNamesClicked()));
 
     }
 
+public slots:
 
+    void changeNamesClicked(){
+        cout << "Button ok was clicked!" << endl;
+        this->close();
+    }
 };
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -78,8 +80,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     //To Do : Change to Player class names
-    m_namePlayer1 = "Player 1";
-    m_namePlayer2 = "Player 2";
+
+    m_counterThrow = 0;
+    m_counterRounds = 0;
 
     m_cubes = vector<int>(5);
     m_fixedCubes = vector<bool>(5);
@@ -109,8 +112,17 @@ void MainWindow::rollDices(){
             setImages(i, m_cubes[i]);
         }
     }
+    m_counterThrow++;
+    if(m_counterThrow == 3){
+        ui->pushButton->setEnabled(false);
+    }
+    ui->dice->setText(QString::number(m_counterThrow));
     vector<int> points = PointCalculator::calculatePointValues(m_cubes);
-    vector<int> userPoints = m_player1->getPointList();
+    ui->leftTableView->setEnabled(true);
+    Player::Player currentPlayer = getCurrentPlayer();
+    //ui->currentPlayer->setText(currentPlayer.getPlayerName());
+
+    vector<int> userPoints = currentPlayer.getPointList();
     vector<int> resultPoint = vector<int>(13);
 
     for (int i = 0; i < points.size(); i++){
@@ -125,6 +137,8 @@ void MainWindow::rollDices(){
     for(int i=0; i < userPoints.size(); i++){
         if(userPoints[i] != -1){
             m_modelLeftTable->item(i,1)->setEnabled(false);
+        } else {
+            m_modelLeftTable->item(i,1)->setEnabled(true);
         }
     }
 }
@@ -176,12 +190,13 @@ void MainWindow::fillLeftTableWithModelData(vector<int> v, int column){
 void MainWindow::initTable(){
 
     ui->centralWidget->setStyleSheet("background: rgb(220,220,220); text-align: center");
+    ui->dice->setText(QString::number(m_counterThrow));
 
     // Set Table 1 & 2 Column Names
-    m_modelLeftTable->setHorizontalHeaderItem(0, new QStandardItem(QString(m_namePlayer1)));
-    m_modelLeftTable->setHorizontalHeaderItem(1, new QStandardItem(QString(m_namePlayer2)));
-    m_modelRightTable->setHorizontalHeaderItem(0, new QStandardItem(QString(m_namePlayer1)));
-    m_modelRightTable->setHorizontalHeaderItem(1, new QStandardItem(QString(m_namePlayer2)));
+    m_modelLeftTable->setHorizontalHeaderItem(0, new QStandardItem(QString("Player 1")));
+    m_modelLeftTable->setHorizontalHeaderItem(1, new QStandardItem(QString("Player 2")));
+    m_modelRightTable->setHorizontalHeaderItem(0, new QStandardItem(QString("Player 1")));
+    m_modelRightTable->setHorizontalHeaderItem(1, new QStandardItem(QString("Player 2")));
 
     // Add Models to Table View
     ui->leftTableView->setModel(m_modelLeftTable);
@@ -257,11 +272,11 @@ void MainWindow::initTable(){
     image5->setPixmap(QPixmap(":/images/w5"));
 
     // Create Checkboxes
-    QCheckBox *box1 = new QCheckBox();
-    QCheckBox *box2 = new QCheckBox();
-    QCheckBox *box3 = new QCheckBox();
-    QCheckBox *box4 = new QCheckBox();
-    QCheckBox *box5 = new QCheckBox();
+    m_box1 = new QCheckBox();
+    m_box2 = new QCheckBox();
+    m_box3 = new QCheckBox();
+    m_box4 = new QCheckBox();
+    m_box5 = new QCheckBox();
 
     // Add Images & Checkboxes to GridLayout
     ui->kubesGridLayout->addWidget(image1, 0, 0, 1, 1, Qt::AlignCenter);
@@ -269,11 +284,11 @@ void MainWindow::initTable(){
     ui->kubesGridLayout->addWidget(image3, 0, 2, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(image4, 0, 3, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(image5, 0, 4, 1, 1, Qt::AlignCenter);
-    ui->kubesGridLayout->addWidget(box1, 1, 0, 1, 1, Qt::AlignCenter);
-    ui->kubesGridLayout->addWidget(box2, 1, 1, 1, 1, Qt::AlignCenter);
-    ui->kubesGridLayout->addWidget(box3, 1, 2, 1, 1, Qt::AlignCenter);
-    ui->kubesGridLayout->addWidget(box4, 1, 3, 1, 1, Qt::AlignCenter);
-    ui->kubesGridLayout->addWidget(box5, 1, 4, 1, 1, Qt::AlignCenter);
+    ui->kubesGridLayout->addWidget(m_box1, 1, 0, 1, 1, Qt::AlignCenter);
+    ui->kubesGridLayout->addWidget(m_box2, 1, 1, 1, 1, Qt::AlignCenter);
+    ui->kubesGridLayout->addWidget(m_box3, 1, 2, 1, 1, Qt::AlignCenter);
+    ui->kubesGridLayout->addWidget(m_box4, 1, 3, 1, 1, Qt::AlignCenter);
+    ui->kubesGridLayout->addWidget(m_box5, 1, 4, 1, 1, Qt::AlignCenter);
 
     //Enables cell edit
     ui->leftTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -283,17 +298,18 @@ void MainWindow::initTable(){
     connect(ui->action_Change_Names, SIGNAL(triggered()), this, SLOT(showInsertNamesDialog()));
     connect(ui->action_New_Game, SIGNAL(triggered()), this, SLOT(startNewGameClicked()));
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(changeCubes()));
-    connect(box1, SIGNAL(toggled(bool)), this, SLOT(setCheckbox1Slot(bool)));
-    connect(box2, SIGNAL(toggled(bool)), this, SLOT(setCheckbox2Slot(bool)));
-    connect(box3, SIGNAL(toggled(bool)), this, SLOT(setCheckbox3Slot(bool)));
-    connect(box4, SIGNAL(toggled(bool)), this, SLOT(setCheckbox4Slot(bool)));
-    connect(box5, SIGNAL(toggled(bool)), this, SLOT(setCheckbox5Slot(bool)));
+    connect(m_box1, SIGNAL(toggled(bool)), this, SLOT(setCheckbox1Slot(bool)));
+    connect(m_box2, SIGNAL(toggled(bool)), this, SLOT(setCheckbox2Slot(bool)));
+    connect(m_box3, SIGNAL(toggled(bool)), this, SLOT(setCheckbox3Slot(bool)));
+    connect(m_box4, SIGNAL(toggled(bool)), this, SLOT(setCheckbox4Slot(bool)));
+    connect(m_box5, SIGNAL(toggled(bool)), this, SLOT(setCheckbox5Slot(bool)));
     connect(ui->leftTableView, SIGNAL(clicked(const QModelIndex &)),
             this, SLOT(leftTableCellClick(const QModelIndex & )));
     connect(ui->rightTableView, SIGNAL(clicked(const QModelIndex &) ),
             this, SLOT(rightTableCellClick(const QModelIndex & )));
 
     ui->leftTableView->setStyleSheet("font-weight:bold; background-color: white");
+    ui->leftTableView->setEnabled(false);
 
 }
 
@@ -303,11 +319,19 @@ void MainWindow::deleteAllTableContent(){
     cout << "Delete all table content" << endl;
 }
 
+Player::Player MainWindow::getCurrentPlayer()
+{
+    if(m_counterRounds % 2 == 0){
+        return *m_player2;
+    }
+    return *m_player1;
+}
+
 // Slot
 void MainWindow::changeCubes(){
     rollDices();
     cout << "---" << endl;
-    deleteAllTableContent();
+    //deleteAllTableContent();
 }
 // Slot
 void MainWindow::showInstructionDialog(){
@@ -327,10 +351,7 @@ void MainWindow::startNewGameClicked(){
     cout << "A new Game was started!" << endl;
 }
 
-// Slot - To Do
-void MainWindow::changeNamesClicked(){
-    cout << "Button ok was clicked!" << endl;
-}
+
 
 // Slot - To Do
 void MainWindow::leftTableCellClick(const QModelIndex & index ){
@@ -342,11 +363,17 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
     if (currentPoints[row] == -1 ){
         m_player1->setPointValue(row, (PointCalculator::calculatePointValues(m_cubes)[row]));
         cout << "Klick Spalte/Reihe : " << column << " / " << row  << endl;
-        QBrush *brush = new QBrush(QColor(0, 255, 204));
-        brush->setStyle(Qt::SolidPattern);
-        //m_modelLeftTable->item(row,column)->setData(QVariant::Brush,Qt::EditRole);
-        //m_modelLeftTable->item(row,column)->setBackground(QBrush(Qt::));
         m_modelLeftTable->item(row,column)->setEnabled(false);
+        m_counterThrow = 0;
+        ui->pushButton->setEnabled(true);
+        ui->dice->setText(QString("0"));
+        ui->leftTableView->setEnabled(false);
+        m_box1->setChecked(false);
+        m_box2->setChecked(false);
+        m_box3->setChecked(false);
+        m_box4->setChecked(false);
+        m_box5->setChecked(false);
+        m_counterRounds++;
     } else {
         cout << "Punkt schon vergeben" << endl;
     }

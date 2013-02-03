@@ -41,6 +41,7 @@ public:
      *The given int-vaue orderIndex matches the point category as seen in the getPointList-method!
      */
     void setPointValue(int orderIndex, int pointValue);
+    QString getPlayerName();
 
 private:
 

@@ -6,6 +6,7 @@
 #include <QStandardItemModel>
 #include <QLabel>
 #include <player.h>
+#include <QCheckBox>
 
 using namespace std;
 
@@ -26,6 +27,7 @@ public:
     void setImages(int index, int random);
     void fillLeftTableWithModelData(vector<int> v, int column);
     void deleteAllTableContent();
+    Player::Player getCurrentPlayer();
     ~MainWindow();
 
 public slots:
@@ -38,14 +40,11 @@ public slots:
     void setCheckbox5Slot(bool);
     void leftTableCellClick(const QModelIndex &);
     void rightTableCellClick(const QModelIndex &);
-    void changeNamesClicked();
     void startNewGameClicked();
     void showInsertNamesDialog();
     
 private:
     Ui::MainWindow *ui;
-    QString m_namePlayer1;
-    QString m_namePlayer2;
     vector<int> m_cubes;
     //if true cubes is fix
     vector<bool> m_fixedCubes;
@@ -54,7 +53,13 @@ private:
     QStandardItemModel *m_modelRightTable;
     Player *m_player1;
     Player *m_player2;
-
+    int m_counterThrow;
+    int m_counterRounds;
+    QCheckBox *m_box1;
+    QCheckBox *m_box2;
+    QCheckBox *m_box3;
+    QCheckBox *m_box4;
+    QCheckBox *m_box5;
 };
 
 #endif // MAINWINDOW_H

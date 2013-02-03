@@ -48,3 +48,7 @@ vector<int> Player::getPointList()
 
     return resultList;
 }
+
+QString Player::getPlayerName(){
+    return m_playerName;
+}
