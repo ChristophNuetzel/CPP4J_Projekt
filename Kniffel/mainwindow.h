@@ -25,19 +25,27 @@ public:
     void rollDices();
     void setImages(int index, int random);
     void fillLeftTableWithModelData(QStandardItemModel *modelLeftTable, vector<int> v, int column);
+    void deleteAllTableContent();
     ~MainWindow();
 
 public slots:
-    void showInstructionDialogSlot();
-    void changeCubesSlot();
+    void showInstructionDialog();
+    void changeCubes();
     void setCheckbox1Slot(bool);
     void setCheckbox2Slot(bool);
     void setCheckbox3Slot(bool);
     void setCheckbox4Slot(bool);
     void setCheckbox5Slot(bool);
+    void leftTableCellClick(const QModelIndex &);
+    void rightTableCellClick(const QModelIndex &);
+    void changeNamesClicked();
+    void startNewGameClicked();
+    void showInsertNamesDialog();
     
 private:
     Ui::MainWindow *ui;
+    QString m_namePlayer1;
+    QString m_namePlayer2;
     vector<int> m_cubes;
     //if true cubes is fix
     vector<bool> m_fixedCubes;
