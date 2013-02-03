@@ -1,5 +1,5 @@
 #include "player.h"
-#include "iostream.h"
+#include <iostream>
 
 using namespace std;
 
@@ -23,13 +23,13 @@ map<int,int> createPointMap()
     return pointValueMap;
 }
 
-player::player(QString playerName)
+Player::Player(QString playerName)
 {
     this->m_playerName = playerName;
     this->m_pointValues = createPointMap();
 }
 
-void player::setPointValue(int orderIndex, int pointValue)
+void Player::setPointValue(int orderIndex, int pointValue)
 {
     if (orderIndex < 0 || orderIndex > 12) {
         cout << "The given orderIndex is out of bounds!" << endl;
@@ -37,7 +37,7 @@ void player::setPointValue(int orderIndex, int pointValue)
     this->m_pointValues[orderIndex] = pointValue;
 }
 
-vector<int> player::getPointList()
+vector<int> Player::getPointList()
 {
     vector<int> resultList = vector<int>(13);
 

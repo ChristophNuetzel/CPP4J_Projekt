@@ -5,6 +5,7 @@
 #include <QModelIndex>
 #include <QStandardItemModel>
 #include <QLabel>
+#include <Player.h>
 
 using namespace std;
 
@@ -18,13 +19,12 @@ class MainWindow : public QMainWindow
     
 public:
     explicit MainWindow(QWidget *parent = 0);
-    void initTable(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable);
-    void fillTableWithStuff(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable);
+    void initTable();
     void insertNamesDialog();
     int generateRandomNumbers();
     void rollDices();
     void setImages(int index, int random);
-    void fillLeftTableWithModelData(QStandardItemModel *modelLeftTable, vector<int> v, int column);
+    void fillLeftTableWithModelData(vector<int> v, int column);
     void deleteAllTableContent();
     ~MainWindow();
 
@@ -50,6 +50,9 @@ private:
     //if true cubes is fix
     vector<bool> m_fixedCubes;
     vector<int> m_test;
+    QStandardItemModel *m_modelLeftTable;
+    QStandardItemModel *m_modelRightTable;
+    vector<Player::Player> m_players;
 
 };
 

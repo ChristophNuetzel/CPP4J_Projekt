@@ -8,13 +8,13 @@
 /* This class represents a single player in the kniffel program.
  * @brief The player class
  */
-class player
+class Player
 {
 public:
     /*This constructor creates a new player.
      *The given QString becomes the player's name.
      */
-    player(QString playerName);
+    Player(QString playerName);
     
     /*This method returns a vector containing all the current point values for this player.
      *If a point value hasn't been set at the moment the value is -1.

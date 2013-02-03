@@ -2,7 +2,6 @@
 #define CALCULATORTESTPROGRAM_H
 
 #include <QString>
-#include <vector>
 
 class CalculatorTestProgram
 {

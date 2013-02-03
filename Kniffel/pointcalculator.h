@@ -4,12 +4,14 @@
 #include <QObject>
 #include <vector>
 
+using namespace std;
+
 class PointCalculator : public QObject
 {
     Q_OBJECT
 public:
     explicit PointCalculator(QObject *parent = 0);
-    
+
     /*This static method returns a vector<int> with 13 values, each one for the point values calculated
      *by the given dices.
      *
@@ -31,7 +33,7 @@ public:
      *
      *The given vector<int> must have the length of 6!
      */
-    static std::vector<int> calculatePointValues(std::vector<int> dices);
+    static vector<int> calculatePointValues(vector<int> dices);
 };
 
 #endif // POINTCALCULATOR_H

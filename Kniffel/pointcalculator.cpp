@@ -5,6 +5,7 @@ using namespace std;
 PointCalculator::PointCalculator(QObject *parent) :
     QObject(parent)
 {
+
 }
 
 int calculatePointsForGivenNumber(int number, vector<int>& dices)
@@ -218,7 +219,7 @@ int chanceValue(vector<int>& dices)
     return result;
 }
 
-vector<int> calculatePointValues(vector<int> dices)
+vector<int> PointCalculator::calculatePointValues(vector<int> dices)
 {
     vector<int> result = vector<int>(13);
 

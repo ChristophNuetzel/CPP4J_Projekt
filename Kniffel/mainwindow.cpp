@@ -14,7 +14,8 @@
 #include <QCheckBox>
 #include <string.h>
 #include <QLineEdit>
-
+#include <pointcalculator.h>
+#include <QString>
 
 using namespace std;
 
@@ -83,12 +84,12 @@ MainWindow::MainWindow(QWidget *parent) :
     m_fixedCubes = vector<bool>(5);
 
     // Create Table Models
-    QStandardItemModel *modelLeftTable = new QStandardItemModel(6,1,this);
-    QStandardItemModel *modelRightTable = new QStandardItemModel(5,1,this);
+    m_modelLeftTable = new QStandardItemModel(6,1,this);
+    m_modelRightTable = new QStandardItemModel(5,1,this);
 
-    initTable(modelLeftTable, modelRightTable);
-    //fillTableWithStuff(modelLeftTable, modelRightTable);
-
+    initTable();
+    //m_players = vector<Player::Player>(2);
+    //m_players[0] = Player::Player(QString("Thomas"));
 }
 
 MainWindow::~MainWindow()
@@ -103,6 +104,8 @@ void MainWindow::rollDices(){
             setImages(i, m_cubes[i]);
         }
     }
+    vector<int> points = PointCalculator::calculatePointValues(m_cubes);
+    fillLeftTableWithModelData(points, 1);
 }
 
 void MainWindow::setImages(int index, int random){
@@ -138,29 +141,30 @@ void MainWindow::insertNamesDialog(){
     dialog->show();
 }
 
-void MainWindow::fillLeftTableWithModelData(QStandardItemModel *modelLeftTable, vector<int> v, int column){
+void MainWindow::fillLeftTableWithModelData(vector<int> v, int column){
     for(int i = 0; i < v.size(); i++){
         QString value = QString::number(v[i]);
         QStandardItem *item = new QStandardItem(value);
         cout << "v[i]: " << v[i] << " value: " << value.toStdString() << endl;
-        modelLeftTable->setItem (i, column, item);
+        m_modelLeftTable->setItem (i, column, item);
+        //m_modelLeftTable->item((i,column))->setText("<font color='red'");
     }
 }
 
 // Initialize Table Content
-void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable){
+void MainWindow::initTable(){
 
     ui->centralWidget->setStyleSheet("background: rgb(220,220,220); text-align: center");
 
     // Set Table 1 & 2 Column Names
-    modelLeftTable->setHorizontalHeaderItem(0, new QStandardItem(QString(m_namePlayer1)));
-    modelLeftTable->setHorizontalHeaderItem(1, new QStandardItem(QString(m_namePlayer2)));
-    modelRightTable->setHorizontalHeaderItem(0, new QStandardItem(QString(m_namePlayer1)));
-    modelRightTable->setHorizontalHeaderItem(1, new QStandardItem(QString(m_namePlayer2)));
+    m_modelLeftTable->setHorizontalHeaderItem(0, new QStandardItem(QString(m_namePlayer1)));
+    m_modelLeftTable->setHorizontalHeaderItem(1, new QStandardItem(QString(m_namePlayer2)));
+    m_modelRightTable->setHorizontalHeaderItem(0, new QStandardItem(QString(m_namePlayer1)));
+    m_modelRightTable->setHorizontalHeaderItem(1, new QStandardItem(QString(m_namePlayer2)));
 
     // Add Models to Table View
-    ui->leftTableView->setModel(modelLeftTable);
-    ui->rightTableView->setModel(modelRightTable);
+    ui->leftTableView->setModel(m_modelLeftTable);
+    ui->rightTableView->setModel(m_modelRightTable);
 
     // Set Table ColumnWidth and Color
     ui->leftTableView->setColumnWidth(0, 55);
@@ -200,24 +204,24 @@ void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemMode
     QStandardItem *total = new QStandardItem(QString("Gesamt"));
 
     // Add Items to Vertical Header
-    modelLeftTable->setVerticalHeaderItem(0, first);
-    modelLeftTable->setVerticalHeaderItem(1, second);
-    modelLeftTable->setVerticalHeaderItem(2, third);
-    modelLeftTable->setVerticalHeaderItem(3, fourth);
-    modelLeftTable->setVerticalHeaderItem(4, fifth);
-    modelLeftTable->setVerticalHeaderItem(5, sixth);
-    modelLeftTable->setVerticalHeaderItem(6, threeTurn);
-    modelLeftTable->setVerticalHeaderItem(7, fourTurn);
-    modelLeftTable->setVerticalHeaderItem(8, fullHouse);
-    modelLeftTable->setVerticalHeaderItem(9, smallStreet);
-    modelLeftTable->setVerticalHeaderItem(10, bigStreet);
-    modelLeftTable->setVerticalHeaderItem(11, kniffel);
-    modelLeftTable->setVerticalHeaderItem(12, chance);
-    modelRightTable->setVerticalHeaderItem(0, sumUp);
-    modelRightTable->setVerticalHeaderItem(1, bonus);
-    modelRightTable->setVerticalHeaderItem(2, totalUp);
-    modelRightTable->setVerticalHeaderItem(3, totalDown);
-    modelRightTable->setVerticalHeaderItem(4, total);
+    m_modelLeftTable->setVerticalHeaderItem(0, first);
+    m_modelLeftTable->setVerticalHeaderItem(1, second);
+    m_modelLeftTable->setVerticalHeaderItem(2, third);
+    m_modelLeftTable->setVerticalHeaderItem(3, fourth);
+    m_modelLeftTable->setVerticalHeaderItem(4, fifth);
+    m_modelLeftTable->setVerticalHeaderItem(5, sixth);
+    m_modelLeftTable->setVerticalHeaderItem(6, threeTurn);
+    m_modelLeftTable->setVerticalHeaderItem(7, fourTurn);
+    m_modelLeftTable->setVerticalHeaderItem(8, fullHouse);
+    m_modelLeftTable->setVerticalHeaderItem(9, smallStreet);
+    m_modelLeftTable->setVerticalHeaderItem(10, bigStreet);
+    m_modelLeftTable->setVerticalHeaderItem(11, kniffel);
+    m_modelLeftTable->setVerticalHeaderItem(12, chance);
+    m_modelRightTable->setVerticalHeaderItem(0, sumUp);
+    m_modelRightTable->setVerticalHeaderItem(1, bonus);
+    m_modelRightTable->setVerticalHeaderItem(2, totalUp);
+    m_modelRightTable->setVerticalHeaderItem(3, totalDown);
+    m_modelRightTable->setVerticalHeaderItem(4, total);
 
     // Create Images für Kubes
     QLabel *image1 = new QLabel();
@@ -269,18 +273,6 @@ void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemMode
             this, SLOT(rightTableCellClick(const QModelIndex & )));
 }
 
-// Fills the table with some stupid numbers
-void MainWindow::fillTableWithStuff(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable){
-
-    QStandardItem *bla = new QStandardItem(QString("15"));
-    QStandardItem *bla1 = new QStandardItem(QString("28"));
-    QStandardItem *bla2 = new QStandardItem(QString("18"));
-    QStandardItem *bla3 = new QStandardItem(QString("26"));
-    modelLeftTable->setItem( 4, 0, bla);
-    modelLeftTable->setItem( 10, 1, bla1);
-    modelLeftTable->setItem( 5, 1, bla2);
-    modelLeftTable->setItem( 8, 1, bla3);
-}
 
 // To Do
 void MainWindow::deleteAllTableContent(){
