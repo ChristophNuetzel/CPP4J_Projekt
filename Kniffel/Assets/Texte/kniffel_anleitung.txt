@@ -1,0 +1,23 @@
+check - Tabelle Manuelle User Inputs Disablen
+Dialogs Inhalte gestalten
+	-Instruction Dialog
+		- Label (Anleitung kopieren + einfügen)
+		- Ok Button
+	-Names Dialog
+		- Label ("Insert User Names")
+		- 2xLabel ("Player 1+2")
+		- Text-Inputs
+		- Ok Buttons
+
+
+Menu-Bar 
+	-Spiel neu starten (open namesDialog - deleteAllCell ausführen)
+	-Instruction Dialog öffnen
+
+
+Methoden:
+
+DeleteAllCellContent()
+	- soll alle Inhalte der Tabellen löschen	
+	- CellKlicked Methode
+
