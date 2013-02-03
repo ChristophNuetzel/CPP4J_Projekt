@@ -1,5 +1,6 @@
 #include "calculatortestprogram.h"
 #include "pointcalculator.h"
+#include "vector.h"
 
 CalculatorTestProgram::CalculatorTestProgram()
 {
@@ -8,14 +9,14 @@ CalculatorTestProgram::CalculatorTestProgram()
 
 static bool callUnitTestForPointCalculator()
 {
-    /*vector<int> test01 = vector<int>(5);
+    std::vector<int> test01 = vector<int>(5);
     test01[0] = 1;
     test01[1] = 3;
     test01[2] = 3;
     test01[3] = 1;
     test01[4] = 5;
 
-    PointCalculator::calculatePointValues(test01);*/
+    PointCalculator::calculatePointValues(test01);
 
     return true;
 }
