@@ -32,4 +32,7 @@
         <file alias="w5">Assets/Images/other/wuerfel5.gif</file>
         <file alias="w6">Assets/Images/other/wuerfel6.gif</file>
     </qresource>
+    <qresource prefix="/texte">
+        <file alias="kniffel">Assets/Texte/kniffel_anleitung.txt</file>
+    </qresource>
 </RCC>

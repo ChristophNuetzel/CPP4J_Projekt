@@ -13,6 +13,8 @@
 #include <signal.h>
 #include <QCheckBox>
 #include <string.h>
+#include <QLineEdit>
+
 
 using namespace std;
 
@@ -22,7 +24,10 @@ class InstructionDialog : public QDialog
 public:
     InstructionDialog()
     {
-        //implement the dialog content here
+        QLabel *instrution = new QLabel("Hier soll die Anleitung stehen");
+        QHBoxLayout *layout = new QHBoxLayout();
+        layout->addWidget(instrution, 0, Qt::AlignCenter);
+        setLayout(layout);
         this->resize(300,150);
     }
 };
@@ -30,12 +35,38 @@ public:
 //to store in extra classes
 class InsertNamesDialog : public QDialog
 {
+
+
 public:
     InsertNamesDialog()
     {
         //implement the dialog content here
         this->resize(300,150);
+
+        QLabel *insertNames = new QLabel("Insert User Names");
+        QLabel *labelPlayer1 = new QLabel("Player1");
+        QLabel *labelPlayer2 = new QLabel("Player2");
+        QPushButton *okButton = new QPushButton("OK");
+        QLineEdit *inputPlayer1 = new QLineEdit();
+        QLineEdit *inputPlayer2 = new QLineEdit();
+        QGridLayout *layout = new QGridLayout();
+
+        layout->addWidget(insertNames,0,0,1,0, Qt::AlignCenter);
+        layout->addWidget(labelPlayer1,1,1,Qt::AlignRight );
+        layout->addWidget(labelPlayer2,2,1,Qt::AlignRight);
+        layout->addWidget(inputPlayer1,1,2);
+        layout->addWidget(inputPlayer2,2,2);
+        layout->addWidget(okButton,3,2);
+
+        setLayout(layout);
+
+        MainWindow *m = new MainWindow();
+
+        connect(okButton, SIGNAL(clicked()), m, SLOT(changeNamesClicked()));
+
     }
+
+
 };
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -43,6 +74,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    //To Do : Change to Player class names
+    m_namePlayer1 = "Player 1";
+    m_namePlayer2 = "Player 2";
 
     m_cubes = vector<int>(5);
     m_fixedCubes = vector<bool>(5);
@@ -53,20 +88,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initTable(modelLeftTable, modelRightTable);
     //fillTableWithStuff(modelLeftTable, modelRightTable);
-
-    // Test Method fillLeftTableWithModelData
-    m_test = vector<int>(13);
-    m_test[0] = 2;
-    m_test[1] = 4;
-    m_test[2] = 2;
-    m_test[3] = 4;
-    m_test[4] = 2;
-    m_test[5] = 4;
-    m_test[6] = 2;
-    m_test[7] = 4;
-
-    fillLeftTableWithModelData(modelLeftTable, m_test, 0);
-
 
 }
 
@@ -110,19 +131,6 @@ int MainWindow::generateRandomNumbers(){
     return random_integer;
 }
 
-// Slot
-void MainWindow::changeCubesSlot(){
-    rollDices();
-    cout << "---" << endl;
-}
-// Slot
-void MainWindow::showInstructionDialogSlot(){
-    cout << "skldjf";
-    InstructionDialog *dialog = new InstructionDialog;
-    dialog->setWindowTitle("Instruction Dialog");
-    dialog->show();
-}
-
 // Start Dialog to insert user names
 void MainWindow::insertNamesDialog(){
     InsertNamesDialog *dialog = new InsertNamesDialog;
@@ -142,13 +150,13 @@ void MainWindow::fillLeftTableWithModelData(QStandardItemModel *modelLeftTable, 
 // Initialize Table Content
 void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemModel *modelRightTable){
 
-        ui->centralWidget->setStyleSheet("background: rgb(220,220,220)");
+    ui->centralWidget->setStyleSheet("background: rgb(220,220,220); text-align: center");
 
     // Set Table 1 & 2 Column Names
-    modelLeftTable->setHorizontalHeaderItem(0, new QStandardItem(QString("Player 1")));
-    modelLeftTable->setHorizontalHeaderItem(1, new QStandardItem(QString("Player 2")));
-    modelRightTable->setHorizontalHeaderItem(0, new QStandardItem(QString("Player 1")));
-    modelRightTable->setHorizontalHeaderItem(1, new QStandardItem(QString("Player 2")));
+    modelLeftTable->setHorizontalHeaderItem(0, new QStandardItem(QString(m_namePlayer1)));
+    modelLeftTable->setHorizontalHeaderItem(1, new QStandardItem(QString(m_namePlayer2)));
+    modelRightTable->setHorizontalHeaderItem(0, new QStandardItem(QString(m_namePlayer1)));
+    modelRightTable->setHorizontalHeaderItem(1, new QStandardItem(QString(m_namePlayer2)));
 
     // Add Models to Table View
     ui->leftTableView->setModel(modelLeftTable);
@@ -242,13 +250,23 @@ void MainWindow::initTable(QStandardItemModel *modelLeftTable, QStandardItemMode
     ui->kubesGridLayout->addWidget(box4, 1, 3, 1, 1, Qt::AlignCenter);
     ui->kubesGridLayout->addWidget(box5, 1, 4, 1, 1, Qt::AlignCenter);
 
-    connect(ui->instructionButton, SIGNAL(clicked()), this, SLOT(showInstructionDialogSlot()));
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(changeCubesSlot()));
+    //Enables cell edit
+    ui->leftTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->rightTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    connect(ui->actionInstruction, SIGNAL(triggered()), this, SLOT(showInstructionDialog()));
+    connect(ui->action_Change_Names, SIGNAL(triggered()), this, SLOT(showInsertNamesDialog()));
+    connect(ui->action_New_Game, SIGNAL(triggered()), this, SLOT(startNewGameClicked()));
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(changeCubes()));
     connect(box1, SIGNAL(toggled(bool)), this, SLOT(setCheckbox1Slot(bool)));
     connect(box2, SIGNAL(toggled(bool)), this, SLOT(setCheckbox2Slot(bool)));
     connect(box3, SIGNAL(toggled(bool)), this, SLOT(setCheckbox3Slot(bool)));
     connect(box4, SIGNAL(toggled(bool)), this, SLOT(setCheckbox4Slot(bool)));
     connect(box5, SIGNAL(toggled(bool)), this, SLOT(setCheckbox5Slot(bool)));
+    connect(ui->leftTableView, SIGNAL(clicked(const QModelIndex &)),
+            this, SLOT(leftTableCellClick(const QModelIndex & )));
+    connect(ui->rightTableView, SIGNAL(clicked(const QModelIndex &) ),
+            this, SLOT(rightTableCellClick(const QModelIndex & )));
 }
 
 // Fills the table with some stupid numbers
@@ -262,9 +280,54 @@ void MainWindow::fillTableWithStuff(QStandardItemModel *modelLeftTable, QStandar
     modelLeftTable->setItem( 10, 1, bla1);
     modelLeftTable->setItem( 5, 1, bla2);
     modelLeftTable->setItem( 8, 1, bla3);
+}
 
-    //connect(ui->leftTableView, SIGNAL( clicked(const QModelIndex &) ),
-            //this, SLOT(cellselected(const QModelIndex & )) );
+// To Do
+void MainWindow::deleteAllTableContent(){
+    cout << "Delete all table content" << endl;
+}
+
+// Slot
+void MainWindow::changeCubes(){
+    rollDices();
+    cout << "---" << endl;
+    deleteAllTableContent();
+}
+// Slot
+void MainWindow::showInstructionDialog(){
+    InstructionDialog *dialog = new InstructionDialog;
+    dialog->setWindowTitle("Instruction Dialog");
+    dialog->show();
+}
+
+// Slot
+void MainWindow::showInsertNamesDialog(){
+    cout << "Show insert Names Dialog" << endl;
+    insertNamesDialog();
+}
+
+// Slot - To Do
+void MainWindow::startNewGameClicked(){
+    cout << "A new Game was started!" << endl;
+}
+
+// Slot - To Do
+void MainWindow::changeNamesClicked(){
+    cout << "Button ok was clicked!" << endl;
+}
+
+// Slot - To Do
+void MainWindow::leftTableCellClick(const QModelIndex & index ){
+    int row = index.row();
+    int column = index.column();
+    cout << "Klick Spalte/Reihe : " << column << " / " << row << endl;
+}
+
+// Slot - To Do
+void MainWindow::rightTableCellClick(const QModelIndex & index){
+    int row = index.row();
+    int column = index.column();
+    cout << "Klick Spalte/Reihe : " << column << " / " << row << endl;
 }
 
 // Slot
