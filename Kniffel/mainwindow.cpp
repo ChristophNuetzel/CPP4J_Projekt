@@ -17,71 +17,14 @@
 #include <pointcalculator.h>
 #include <QString>
 
-
 using namespace std;
-
-//to store in extra classes
-class InstructionDialog : public QDialog
-{
-public:
-    InstructionDialog()
-    {
-        QLabel *instrution = new QLabel("Hier soll die Anleitung stehen");
-        QHBoxLayout *layout = new QHBoxLayout();
-        layout->addWidget(instrution, 0, Qt::AlignCenter);
-        setLayout(layout);
-        this->resize(300,150);
-    }
-};
-
-//to store in extra classes
-class InsertNamesDialog : public QDialog
-{
-
-public:
-    InsertNamesDialog()
-    {
-        //implement the dialog content here
-        this->resize(300,150);
-
-        QLabel *insertNames = new QLabel("Insert User Names");
-        QLabel *labelPlayer1 = new QLabel("Player1");
-        QLabel *labelPlayer2 = new QLabel("Player2");
-        QPushButton *okButton = new QPushButton("OK");
-        QLineEdit *inputPlayer1 = new QLineEdit();
-        QLineEdit *inputPlayer2 = new QLineEdit();
-        QGridLayout *layout = new QGridLayout();
-
-        layout->addWidget(insertNames,0,0,1,0, Qt::AlignCenter);
-        layout->addWidget(labelPlayer1,1,1,Qt::AlignRight );
-        layout->addWidget(labelPlayer2,2,1,Qt::AlignRight);
-        layout->addWidget(inputPlayer1,1,2);
-        layout->addWidget(inputPlayer2,2,2);
-        layout->addWidget(okButton,3,2);
-
-        setLayout(layout);
-
-        //connect(okButton, SIGNAL(clicked()), this, SLOT(changeNamesClicked()));
-
-    }
-
-public slots:
-
-    void changeNamesClicked(){
-        cout << "Button ok was clicked!" << endl;
-        this->close();
-    }
-};
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    //To Do : Change to Player class names
-
-    cout << "KONSTRUKTOR" << endl;
+    cout << "Spiel gestartet" << endl;
 
     m_counterThrow = 0;
     m_counterRounds = 1;
@@ -133,7 +76,6 @@ void MainWindow::rollDices(){
     ui->currentPlayer->setText(currentPlayer.getPlayerName());
 
     vector<int> userPoints = currentPlayer.getPointList();
-    cout << "userPoints[0] ist: " << userPoints[0] << endl;
     vector<int> resultPoints = vector<int>(13);
     ui->statusText->setText(currentPlayer.getPlayerName() + " ist am Zug");
 
@@ -144,7 +86,7 @@ void MainWindow::rollDices(){
             resultPoints[i] = points[i];
         }
     }
-    cout << "currentPlayer.getColumnNumber(): " << currentPlayer.getColumnNumber() << endl;
+
     fillLeftTableWithModelData(resultPoints,currentPlayer.getColumnNumber());
 
     for(uint i=0; i < userPoints.size(); i++){
@@ -157,7 +99,6 @@ void MainWindow::rollDices(){
         }
     }
 
-    cout << "the current number checkpoint" << currentPlayer.getColumnNumber()<< endl;
     // disable the column of the other players
     for (int i=0; i<13; i++){
         if (currentPlayer.getColumnNumber() == 0) {
@@ -166,12 +107,11 @@ void MainWindow::rollDices(){
             m_modelLeftTable->item(i,0)->setEnabled(false);
         }
     }
-
 }
 
 void MainWindow::setImages(int index, int random){
     QLabel *image1 = new QLabel();
-//    cout <<"index: " << index << " random: " << random << endl;
+
     switch(random)
     {
     case 1: image1->setPixmap(QPixmap(":/images/W1"));
@@ -193,13 +133,6 @@ void MainWindow::setImages(int index, int random){
 int MainWindow::generateRandomNumbers(){
     int random_integer = 1 + (rand() % 6 );
     return random_integer;
-}
-
-// Start Dialog to insert user names
-void MainWindow::insertNamesDialog(){
-    InsertNamesDialog *dialog = new InsertNamesDialog;
-    dialog->setWindowTitle("Insert Names Dialog");
-    dialog->show();
 }
 
 void MainWindow::fillLeftTableWithModelData(vector<int> v, int column){
@@ -229,8 +162,6 @@ void MainWindow::fillRightTableWithModelData(vector<int> v, int column){
 
 // Initialize Table Content
 void MainWindow::initTable(){
-
-
 
     ui->scrollArea->setStyleSheet("background: rgb(8,138,75); text-align: center");
     ui->pushButton->setStyleSheet("background: rgb(220,220,220)");
@@ -391,7 +322,6 @@ Player::Player &MainWindow::getCurrentPlayer()
 void MainWindow::changeCubes(){
     rollDices();
     cout << "---" << endl;
-    //deleteAllTableContent();
 }
 
 // Slot - To Do
@@ -418,8 +348,6 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
         m_box5->setChecked(false);
         m_counterRounds++;
 
-
-
         // updated point list after setting the point value
         currentPoints = currentPlayer.getPointList();
 
@@ -434,7 +362,7 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
         ui->currentPlayer->setText(currentPlayer.getPlayerName());
         ui->statusText->setText(currentPlayer.getPlayerName() + " ist jetzt am Zug");
 
-        if(m_counterRounds > 2){
+        if(m_counterRounds > 26){
             ui->pushButton->setEnabled(false);
             ui->statusText->setText("Spiel Beendet");
             ui->currentPlayer->setText("Spiel Beendet");
@@ -454,8 +382,6 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
             }
         }
 
-
-
     } else {
         cout << "Punkt schon vergeben" << endl;
     }
@@ -469,6 +395,7 @@ void MainWindow::setCheckbox1Slot( bool b ){
         m_fixedCubes[0] = false;
     }
 }
+
 // Slot
 void MainWindow::setCheckbox2Slot( bool b ){
     if(b == true){
@@ -477,6 +404,7 @@ void MainWindow::setCheckbox2Slot( bool b ){
         m_fixedCubes[1] = false;
     }
 }
+
 // Slot
 void MainWindow::setCheckbox3Slot( bool b ){
     if(b == true){
@@ -485,6 +413,7 @@ void MainWindow::setCheckbox3Slot( bool b ){
         m_fixedCubes[2] = false;
     }
 }
+
 // Slot
 void MainWindow::setCheckbox4Slot( bool b ){
     if(b == true){
@@ -493,6 +422,7 @@ void MainWindow::setCheckbox4Slot( bool b ){
         m_fixedCubes[3] = false;
     }
 }
+
 // Slot
 void MainWindow::setCheckbox5Slot( bool b ){
     if(b == true){

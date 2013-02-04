@@ -22,7 +22,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     void initTable();
-    void insertNamesDialog();
     int generateRandomNumbers();
     void rollDices();
     void setImages(int index, int random);
