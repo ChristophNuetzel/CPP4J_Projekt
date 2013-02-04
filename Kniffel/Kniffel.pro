@@ -15,12 +15,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     pointcalculator.cpp \
-    calculatortestprogram.cpp \
     player.cpp
 
 HEADERS  += mainwindow.h \
     pointcalculator.h \
-    calculatortestprogram.h \
     player.h
 
 FORMS    += mainwindow.ui
