@@ -6,11 +6,10 @@
 
 using namespace std;
 
-class PointCalculator : public QObject
+class PointCalculator
 {
-    Q_OBJECT
+
 public:
-    explicit PointCalculator(QObject *parent = 0);
 
     /*This static method returns a vector<int> with 13 values, each one for the point values calculated
      *by the given dices.

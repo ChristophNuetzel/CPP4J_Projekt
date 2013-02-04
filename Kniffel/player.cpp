@@ -3,6 +3,7 @@
 
 using namespace std;
 
+// creates and fills the map initially with -1 values.
 map<int,int> createPointMap()
 {
     map<int,int> pointValueMap;
@@ -23,6 +24,7 @@ map<int,int> createPointMap()
     return pointValueMap;
 }
 
+// constructor
 Player::Player(QString playerName, int columnNumber)
 {
     this->m_playerName = playerName;
@@ -32,22 +34,15 @@ Player::Player(QString playerName, int columnNumber)
 
 void Player::setPointValue(int orderIndex, int pointValue)
 {
-    cout << "orderIndex ist in Player: " << orderIndex << endl;
-    cout << "pointValue ist in player: " << pointValue<< endl;
-
-
     if (orderIndex < 0 || orderIndex > 12) {
         cout << "The given orderIndex is out of bounds!" << endl;
     }
     this->m_pointValues[orderIndex] = pointValue;
-
 }
 
 vector<int> Player::getPointList()
 {
     vector<int> resultList = vector<int>(13);
-
-    cout << "in Player::getPointList" << m_pointValues[0] << endl;
 
     for (int i = 0; i < 13; i++)
     {

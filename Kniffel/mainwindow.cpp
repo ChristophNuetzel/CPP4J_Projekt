@@ -36,11 +36,14 @@ MainWindow::MainWindow(QWidget *parent) :
     m_modelLeftTable = new QStandardItemModel(6,1,this);
     m_modelRightTable = new QStandardItemModel(5,1,this);
 
-
-    //QString str = QString("skldf");
+    // creating the player objects
+    // In the next version all players are saved in one vector<Player>, so that there doesn't have to be a fixed number of palyers
+    // --> The UI has to be adapted to that user-model in the next version!
     m_player1 = new Player::Player(QString("Thomas"), 0);
     m_player2 = new Player::Player(QString("Christoph"), 1);
     initTable();
+
+    // Filling the table with zeros.
     vector<int> zeroInitVector = vector<int>(13);
 
     for (int i=0; i<13; i++) {
@@ -55,6 +58,18 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+
+    delete m_box1;
+    delete m_box2;
+    delete m_box3;
+    delete m_box4;
+    delete m_box5;
+
+    delete m_modelLeftTable;
+    delete m_modelRightTable;
+
+    delete m_player1;
+    delete m_player2;
 }
 
 void MainWindow::rollDices(){
@@ -305,9 +320,9 @@ void MainWindow::initTable(){
 }
 
 
-// To Do
+// This method is not implemented yet
 void MainWindow::deleteAllTableContent(){
-    cout << "Delete all table content" << endl;
+    cout << "Foo!" << endl;
 }
 
 Player::Player &MainWindow::getCurrentPlayer()
@@ -321,10 +336,9 @@ Player::Player &MainWindow::getCurrentPlayer()
 // Slot
 void MainWindow::changeCubes(){
     rollDices();
-    cout << "---" << endl;
 }
 
-// Slot - To Do
+// Slot
 void MainWindow::leftTableCellClick(const QModelIndex & index ){
     int row = index.row();
     int column = index.column();
@@ -335,7 +349,6 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
 
     if (currentPoints[row] == -1 ){
         currentPlayer.setPointValue(row, (PointCalculator::calculatePointValues(m_cubes)[row]));
-        cout << "Klick Spalte/Reihe : " << column << " / " << row  << endl;
         m_modelLeftTable->item(row,column)->setEnabled(false);
         m_counterThrow = 0;
         ui->pushButton->setEnabled(true);
@@ -362,6 +375,8 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
         ui->currentPlayer->setText(currentPlayer.getPlayerName());
         ui->statusText->setText(currentPlayer.getPlayerName() + " ist jetzt am Zug");
 
+        // This code is executed, when the game is over.
+        // It calculates the results.
         if(m_counterRounds > 26){
             ui->pushButton->setEnabled(false);
             ui->statusText->setText("Spiel Beendet");
@@ -383,7 +398,7 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
         }
 
     } else {
-        cout << "Punkt schon vergeben" << endl;
+        cout << "Punkt schon vergeben. Bitte andere Zeile auswaehlen!" << endl;
     }
 }
 

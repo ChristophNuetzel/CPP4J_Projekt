@@ -2,12 +2,6 @@
 
 using namespace std;
 
-PointCalculator::PointCalculator(QObject *parent) :
-    QObject(parent)
-{
-
-}
-
 int calculatePointsForGivenNumber(int number, vector<int>& dices)
 {
     int result = 0;

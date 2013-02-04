@@ -44,8 +44,12 @@ public:
      */
     void setPointValue(int orderIndex, int pointValue);
 
+    /*This method returns this player's name as a QString.
+     */
     QString getPlayerName();
 
+    /*This method returns the player's column index.
+     */
     int getColumnNumber();
 
     /*The order of the values is as follows:
@@ -59,8 +63,13 @@ public:
 
 private:
 
+    // the name of the player
     QString m_playerName;
+
+    // this map contains the points of the player
     std::map<int,int> m_pointValues;
+
+    // the column index in the point table
     int m_columnNumber;
 };
 
