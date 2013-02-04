@@ -124,7 +124,7 @@
          </item>
         </layout>
        </widget>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="label_kniffel">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -143,7 +143,7 @@
          <string>Kniffel</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="label_created">
         <property name="geometry">
          <rect>
           <x>20</x>

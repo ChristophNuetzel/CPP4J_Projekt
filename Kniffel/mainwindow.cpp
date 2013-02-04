@@ -358,6 +358,9 @@ void MainWindow::initTable(){
             this, SLOT(leftTableCellClick(const QModelIndex & )));
 
     ui->leftTableView->setStyleSheet("font-weight:bold; background-color: white");
+    ui->rightTableView->setStyleSheet("font-weight:bold; background-color: white");
+    ui->leftTableView->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->rightTableView->setSelectionMode(QAbstractItemView::NoSelection);
     ui->leftTableView->setEnabled(false);
     ui->rightTableView->setEnabled(false);
 
@@ -444,7 +447,7 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
         ui->currentPlayer->setText(currentPlayer.getPlayerName());
         ui->statusText->setText(currentPlayer.getPlayerName() + " ist jetzt am Zug");
 
-        if(m_counterRounds > 27){
+        if(m_counterRounds > 26){
             ui->pushButton->setEnabled(false);
             ui->statusText->setText("Spiel Beendet");
             ui->rightTableView->setEnabled(true);
