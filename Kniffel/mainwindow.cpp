@@ -381,6 +381,7 @@ void MainWindow::showInsertNamesDialog(){
 // Slot - To Do
 void MainWindow::startNewGameClicked(){
     cout << "A new Game was started!" << endl;
+
 }
 
 
@@ -425,7 +426,7 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
         ui->currentPlayer->setText(currentPlayer.getPlayerName());
         ui->statusText->setText(currentPlayer.getPlayerName() + " ist jetzt am Zug");
 
-        if(m_counterRounds > 2){
+        if(m_counterRounds > 27){
             ui->pushButton->setEnabled(false);
             ui->statusText->setText("Spiel Beendet");
             ui->rightTableView->setEnabled(true);
@@ -436,6 +437,7 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
 
             int resultPlayer1 = m_modelRightTable->item(4,0)->text().toInt();
             int resultPlayer2 = m_modelRightTable->item(4,1)->text().toInt();
+            ui->statusText_2->setStyleSheet("color: rgb(255,255,255)");
             if(resultPlayer1 > resultPlayer2){
                 ui->statusText_2->setText(m_player1->getPlayerName() + " hat gewonnen");
             }else{

@@ -53,9 +53,9 @@
        <widget class="QWidget" name="gridLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>244</x>
+          <x>250</x>
           <y>120</y>
-          <width>197</width>
+          <width>236</width>
           <height>55</height>
          </rect>
         </property>
@@ -118,7 +118,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Würfe</string>
+            <string>Anzahl Würfe:</string>
            </property>
           </widget>
          </item>
@@ -190,12 +190,12 @@
          <rect>
           <x>20</x>
           <y>110</y>
-          <width>215</width>
+          <width>217</width>
           <height>412</height>
          </rect>
         </property>
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -229,8 +229,8 @@
         <property name="geometry">
          <rect>
           <x>243</x>
-          <y>350</y>
-          <width>215</width>
+          <y>347</y>
+          <width>217</width>
           <height>173</height>
          </rect>
         </property>
@@ -339,7 +339,6 @@
     </property>
     <addaction name="action_New_Game"/>
     <addaction name="separator"/>
-    <addaction name="actionInstruction"/>
    </widget>
    <widget class="QMenu" name="menuPlayers">
     <property name="title">
