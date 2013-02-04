@@ -172,17 +172,17 @@ void MainWindow::setImages(int index, int random){
 //    cout <<"index: " << index << " random: " << random << endl;
     switch(random)
     {
-    case 1: image1->setPixmap(QPixmap(":/images/w1"));
+    case 1: image1->setPixmap(QPixmap(":/images/W1"));
         break;
-    case 2: image1->setPixmap(QPixmap(":/images/w2"));
+    case 2: image1->setPixmap(QPixmap(":/images/W2"));
         break;
-    case 3: image1->setPixmap(QPixmap(":/images/w3"));
+    case 3: image1->setPixmap(QPixmap(":/images/W3"));
         break;
-    case 4: image1->setPixmap(QPixmap(":/images/w4"));
+    case 4: image1->setPixmap(QPixmap(":/images/W4"));
         break;
-    case 5: image1->setPixmap(QPixmap(":/images/w5"));
+    case 5: image1->setPixmap(QPixmap(":/images/W5"));
         break;
-    case 6: image1->setPixmap(QPixmap(":/images/w6"));
+    case 6: image1->setPixmap(QPixmap(":/images/W6"));
         break;
     }
    ui->kubesGridLayout->addWidget(image1, 0, index, 1, 1, Qt::AlignCenter);
@@ -248,17 +248,35 @@ void MainWindow::initTable(){
     ui->diceLabel->setAlignment(Qt::AlignLeft);
 
     // Load Icon to View
-    QIcon *i = new QIcon();
-    QString *string = new QString(":/images/test");
-    i->addFile(*string, QSize(), QIcon::Normal, QIcon::On);
+    QIcon *i1 = new QIcon();
+    QIcon *i2 = new QIcon();
+    QIcon *i3 = new QIcon();
+    QIcon *i4 = new QIcon();
+    QIcon *i5 = new QIcon();
+    QIcon *i6 = new QIcon();
+
+
+    QString *string1 = new QString(":/images/W1");
+    QString *string2 = new QString(":/images/W2");
+    QString *string3 = new QString(":/images/W3");
+    QString *string4 = new QString(":/images/W4");
+    QString *string5 = new QString(":/images/W5");
+    QString *string6 = new QString(":/images/W6");
+
+    i1->addFile(*string1, QSize(), QIcon::Normal, QIcon::On);
+    i2->addFile(*string2, QSize(), QIcon::Normal, QIcon::On);
+    i3->addFile(*string3, QSize(), QIcon::Normal, QIcon::On);
+    i4->addFile(*string4, QSize(), QIcon::Normal, QIcon::On);
+    i5->addFile(*string5, QSize(), QIcon::Normal, QIcon::On);
+    i6->addFile(*string6, QSize(), QIcon::Normal, QIcon::On);
 
     // Set Table 1 & 2 Row Names
-    QStandardItem *first = new QStandardItem(*i,QString("1er"));
-    QStandardItem *second = new QStandardItem(*i,QString("2er"));
-    QStandardItem *third = new QStandardItem(*i,QString("3er"));
-    QStandardItem *fourth = new QStandardItem(*i,QString("4er"));
-    QStandardItem *fifth = new QStandardItem(*i,QString("5er"));
-    QStandardItem *sixth = new QStandardItem(*i,QString("6er"));
+    QStandardItem *first = new QStandardItem(*i1,QString("1er"));
+    QStandardItem *second = new QStandardItem(*i2,QString("2er"));
+    QStandardItem *third = new QStandardItem(*i3,QString("3er"));
+    QStandardItem *fourth = new QStandardItem(*i4,QString("4er"));
+    QStandardItem *fifth = new QStandardItem(*i5,QString("5er"));
+    QStandardItem *sixth = new QStandardItem(*i6,QString("6er"));
     QStandardItem *threeTurn = new QStandardItem(QString("Dreierpasch"));
     QStandardItem *fourTurn = new QStandardItem(QString("Viererpasch"));
     QStandardItem *fullHouse = new QStandardItem(QString("Full-House"));
@@ -298,11 +316,11 @@ void MainWindow::initTable(){
     QLabel *image3 = new QLabel();
     QLabel *image4 = new QLabel();
     QLabel *image5 = new QLabel();
-    image1->setPixmap(QPixmap(":/images/w1"));
-    image2->setPixmap(QPixmap(":/images/w2"));
-    image3->setPixmap(QPixmap(":/images/w3"));
-    image4->setPixmap(QPixmap(":/images/w4"));
-    image5->setPixmap(QPixmap(":/images/w5"));
+    image1->setPixmap(QPixmap(":/images/W1"));
+    image2->setPixmap(QPixmap(":/images/W2"));
+    image3->setPixmap(QPixmap(":/images/W3"));
+    image4->setPixmap(QPixmap(":/images/W4"));
+    image5->setPixmap(QPixmap(":/images/W5"));
 
     // Create Checkboxes
     m_box1 = new QCheckBox();
