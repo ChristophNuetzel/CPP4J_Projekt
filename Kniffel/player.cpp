@@ -41,8 +41,6 @@ void Player::setPointValue(int orderIndex, int pointValue)
     }
     this->m_pointValues[orderIndex] = pointValue;
 
-    cout << "this->m_pointValues[orderIndex] ausgegeben nach der Zuweisung: " << this->m_pointValues[orderIndex] << endl;
-
 }
 
 vector<int> Player::getPointList()
@@ -55,6 +53,41 @@ vector<int> Player::getPointList()
     {
         resultList[i] = this->m_pointValues[i];
     }
+
+    return resultList;
+}
+
+
+
+std::vector<int> Player::getSumPointList(){
+
+    vector<int> resultList = vector<int>(5);
+
+    //Initalize all with 0
+    for(int i = 0; i < resultList.size(); i++){
+        resultList[i] = 0;
+    }
+
+    //Sum top (0)
+    for(int i = 0; i < 6; i++ ){
+        resultList[0] += this->m_pointValues[i];
+    }
+
+    //Bonus? (1)
+    if(resultList[0] >= 63 ){
+        resultList[1] = 35;
+    }
+
+    //Total top (2)
+    resultList[2] = resultList[0] + resultList[1];
+
+    //Total bottom (3)
+    for(int i = 6; i < 13; i++){
+        resultList[3] += this->m_pointValues[i];
+    }
+
+    //Total All
+    resultList[4] = resultList[2] + resultList[3];
 
     return resultList;
 }

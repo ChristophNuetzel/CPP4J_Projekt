@@ -38,6 +38,7 @@ public:
      */
     std::vector<int> getPointList();
 
+
     /*This method stores a point value for this player.
      *The given int-vaue orderIndex matches the point category as seen in the getPointList-method!
      */
@@ -46,6 +47,15 @@ public:
     QString getPlayerName();
 
     int getColumnNumber();
+
+    /*The order of the values is as follows:
+    * Sum top      (Index 0)
+    * Bonus?       (1)
+    * Total top    (2)
+    * Total bottom (3)
+    * Total All    (4)
+    */
+    std::vector<int> getSumPointList();
 
 private:
 

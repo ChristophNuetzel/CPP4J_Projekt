@@ -26,6 +26,7 @@ public:
     void rollDices();
     void setImages(int index, int random);
     void fillLeftTableWithModelData(vector<int> v, int column);
+    void fillRightTableWithModelData(vector<int> v, int column);
     void deleteAllTableContent();
     Player::Player &getCurrentPlayer();
     ~MainWindow();
@@ -39,7 +40,6 @@ public slots:
     void setCheckbox4Slot(bool);
     void setCheckbox5Slot(bool);
     void leftTableCellClick(const QModelIndex &);
-    void rightTableCellClick(const QModelIndex &);
     void startNewGameClicked();
     void showInsertNamesDialog();
     

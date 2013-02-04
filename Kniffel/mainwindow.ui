@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -44,15 +47,15 @@
          <x>0</x>
          <y>0</y>
          <width>563</width>
-         <height>541</height>
+         <height>561</height>
         </rect>
        </property>
        <widget class="QWidget" name="gridLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>360</x>
+          <x>244</x>
           <y>120</y>
-          <width>165</width>
+          <width>197</width>
           <height>55</height>
          </rect>
         </property>
@@ -74,7 +77,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Player 1</string>
+            <string>'Würfeln' Klicken</string>
            </property>
           </widget>
          </item>
@@ -102,7 +105,7 @@
             </font>
            </property>
            <property name="text">
-            <string>current Player:</string>
+            <string>Aktueller Spieler: </string>
            </property>
           </widget>
          </item>
@@ -115,7 +118,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Dice: </string>
+            <string>Würfe</string>
            </property>
           </widget>
          </item>
@@ -159,23 +162,24 @@
          <string>created by Thomas Fett &amp; Christoph Nützel</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="statusText">
         <property name="geometry">
          <rect>
           <x>20</x>
           <y>95</y>
-          <width>71</width>
+          <width>191</width>
           <height>16</height>
          </rect>
         </property>
         <property name="font">
          <font>
           <family>Cambria</family>
-          <underline>true</underline>
+          <pointsize>9</pointsize>
+          <underline>false</underline>
          </font>
         </property>
         <property name="text">
-         <string>change names</string>
+         <string>Klick 'Würfeln' für Start</string>
         </property>
        </widget>
        <widget class="QTableView" name="leftTableView">
@@ -186,7 +190,7 @@
          <rect>
           <x>20</x>
           <y>110</y>
-          <width>195</width>
+          <width>215</width>
           <height>412</height>
          </rect>
         </property>
@@ -224,11 +228,17 @@
        <widget class="QTableView" name="rightTableView">
         <property name="geometry">
          <rect>
-          <x>220</x>
+          <x>243</x>
           <y>350</y>
-          <width>197</width>
+          <width>215</width>
           <height>173</height>
          </rect>
+        </property>
+        <property name="verticalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
         </property>
         <property name="dragEnabled">
          <bool>false</bool>
@@ -240,8 +250,8 @@
        <widget class="QGroupBox" name="groupBox">
         <property name="geometry">
          <rect>
-          <x>240</x>
-          <y>180</y>
+          <x>250</x>
+          <y>187</y>
           <width>281</width>
           <height>101</height>
          </rect>
@@ -250,7 +260,7 @@
          <bool>false</bool>
         </property>
         <property name="title">
-         <string>Kubes</string>
+         <string/>
         </property>
         <widget class="QWidget" name="gridLayoutWidget_2">
          <property name="geometry">
@@ -264,36 +274,50 @@
          <layout class="QGridLayout" name="kubesGridLayout"/>
         </widget>
        </widget>
-       <widget class="QWidget" name="verticalLayoutWidget">
+       <widget class="QLabel" name="statusText_2">
         <property name="geometry">
          <rect>
-          <x>450</x>
-          <y>290</y>
-          <width>71</width>
-          <height>41</height>
+          <x>243</x>
+          <y>330</y>
+          <width>191</width>
+          <height>16</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>Cambria</family>
-             <pointsize>9</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Roll dices</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <property name="font">
+         <font>
+          <family>Cambria</family>
+          <pointsize>9</pointsize>
+          <underline>false</underline>
+         </font>
+        </property>
+        <property name="text">
+         <string>Wird erst am Ende berechnet</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>298</y>
+          <width>91</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Cambria</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Würfeln</string>
+        </property>
        </widget>
       </widget>
      </widget>
@@ -326,7 +350,6 @@
    <addaction name="menu_Setting"/>
    <addaction name="menuPlayers"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="action_New_Game">
    <property name="text">
     <string>&amp;New Game</string>

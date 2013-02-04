@@ -93,11 +93,11 @@ MainWindow::MainWindow(QWidget *parent) :
     m_modelLeftTable = new QStandardItemModel(6,1,this);
     m_modelRightTable = new QStandardItemModel(5,1,this);
 
-    initTable();
+
     //QString str = QString("skldf");
     m_player1 = new Player::Player(QString("Thomas"), 0);
     m_player2 = new Player::Player(QString("Christoph"), 1);
-
+    initTable();
     vector<int> zeroInitVector = vector<int>(13);
 
     for (int i=0; i<13; i++) {
@@ -106,7 +106,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     fillLeftTableWithModelData(zeroInitVector,0);
     fillLeftTableWithModelData(zeroInitVector,1);
-
 
 }
 
@@ -126,7 +125,7 @@ void MainWindow::rollDices(){
     if(m_counterThrow == 3){
         ui->pushButton->setEnabled(false);
     }
-    ui->dice->setText(QString::number(m_counterThrow));
+    ui->dice->setText(QString::number(m_counterThrow) + "/3");
     vector<int> points = PointCalculator::calculatePointValues(m_cubes);
     ui->leftTableView->setEnabled(true);
 
@@ -136,6 +135,7 @@ void MainWindow::rollDices(){
     vector<int> userPoints = currentPlayer.getPointList();
     cout << "userPoints[0] ist: " << userPoints[0] << endl;
     vector<int> resultPoints = vector<int>(13);
+    ui->statusText->setText(currentPlayer.getPlayerName() + " ist am Zug");
 
     for (int i = 0; i < points.size(); i++){
         if(userPoints[i] != -1){
@@ -204,39 +204,48 @@ void MainWindow::fillLeftTableWithModelData(vector<int> v, int column){
     for(int i = 0; i < v.size(); i++){
         QString value = QString::number(v[i]);
         QStandardItem *item = new QStandardItem(value);
-//        cout << "v[i]: " << v[i] << " value: " << value.toStdString() << endl;
         m_modelLeftTable->setItem (i, column, item);
-        //m_modelLeftTable->item((i,column))->setText("<font color='red'");
+
+    }
+}
+
+void MainWindow::fillRightTableWithModelData(vector<int> v, int column){
+    for(int i = 0; i < v.size(); i++){
+        QString value = QString::number(v[i]);
+        QStandardItem *item = new QStandardItem(value);
+        m_modelRightTable->setItem (i, column, item);
     }
 }
 
 // Initialize Table Content
 void MainWindow::initTable(){
 
-    ui->centralWidget->setStyleSheet("background: rgb(220,220,220); text-align: center");
-    ui->dice->setText(QString::number(m_counterThrow));
+    ui->scrollArea->setStyleSheet("background: rgb(8,138,75); text-align: center");
+    ui->pushButton->setStyleSheet("background: rgb(220,220,220)");
+    ui->dice->setText(QString::number(m_counterThrow)+"/3");
 
     // Set Table 1 & 2 Column Names
-    m_modelLeftTable->setHorizontalHeaderItem(0, new QStandardItem(QString("Player 1")));
-    m_modelLeftTable->setHorizontalHeaderItem(1, new QStandardItem(QString("Player 2")));
-    m_modelRightTable->setHorizontalHeaderItem(0, new QStandardItem(QString("Player 1")));
-    m_modelRightTable->setHorizontalHeaderItem(1, new QStandardItem(QString("Player 2")));
+    m_modelLeftTable->setHorizontalHeaderItem(0, new QStandardItem(m_player1->getPlayerName()));
+    m_modelLeftTable->setHorizontalHeaderItem(1, new QStandardItem(m_player2->getPlayerName()));
+    m_modelRightTable->setHorizontalHeaderItem(0, new QStandardItem(m_player1->getPlayerName()));
+    m_modelRightTable->setHorizontalHeaderItem(1, new QStandardItem(m_player2->getPlayerName()));
 
     // Add Models to Table View
     ui->leftTableView->setModel(m_modelLeftTable);
     ui->rightTableView->setModel(m_modelRightTable);
 
     // Set Table ColumnWidth and Color
-    ui->leftTableView->setColumnWidth(0, 55);
-    ui->leftTableView->setColumnWidth(1, 55);
+
+    ui->leftTableView->setColumnWidth(0, 65);
+    ui->leftTableView->setColumnWidth(1, 65);
     ui->leftTableView->setStyleSheet("background: rgb(220,220,220), ; border-style:solid");
-    ui->rightTableView->setColumnWidth(0, 55);
-    ui->rightTableView->setColumnWidth(1, 55);
+    ui->rightTableView->setColumnWidth(0, 65);
+    ui->rightTableView->setColumnWidth(1, 65);
     ui->rightTableView->setStyleSheet("background: rgb(220,220,220), ; border-style:solid");
     ui->currentPlayer->setAlignment(Qt::AlignLeft);
     ui->dice->setAlignment(Qt::AlignLeft);
-    ui->currentPlayerLabel->setAlignment(Qt::AlignRight);
-    ui->diceLabel->setAlignment(Qt::AlignRight);
+    ui->currentPlayerLabel->setAlignment(Qt::AlignLeft);
+    ui->diceLabel->setAlignment(Qt::AlignLeft);
 
     // Load Icon to View
     QIcon *i = new QIcon();
@@ -329,11 +338,10 @@ void MainWindow::initTable(){
     connect(m_box5, SIGNAL(toggled(bool)), this, SLOT(setCheckbox5Slot(bool)));
     connect(ui->leftTableView, SIGNAL(clicked(const QModelIndex &)),
             this, SLOT(leftTableCellClick(const QModelIndex & )));
-    connect(ui->rightTableView, SIGNAL(clicked(const QModelIndex &) ),
-            this, SLOT(rightTableCellClick(const QModelIndex & )));
 
     ui->leftTableView->setStyleSheet("font-weight:bold; background-color: white");
     ui->leftTableView->setEnabled(false);
+    ui->rightTableView->setEnabled(false);
 
 }
 
@@ -386,15 +394,13 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
 
     vector<int> currentPoints = currentPlayer.getPointList();
 
-
-
     if (currentPoints[row] == -1 ){
         currentPlayer.setPointValue(row, (PointCalculator::calculatePointValues(m_cubes)[row]));
         cout << "Klick Spalte/Reihe : " << column << " / " << row  << endl;
         m_modelLeftTable->item(row,column)->setEnabled(false);
         m_counterThrow = 0;
         ui->pushButton->setEnabled(true);
-        ui->dice->setText(QString("0"));
+        ui->dice->setText(QString("0/3"));
         ui->leftTableView->setEnabled(false);
         m_box1->setChecked(false);
         m_box2->setChecked(false);
@@ -402,6 +408,8 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
         m_box4->setChecked(false);
         m_box5->setChecked(false);
         m_counterRounds++;
+
+
 
         // updated point list after setting the point value
         currentPoints = currentPlayer.getPointList();
@@ -413,18 +421,33 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
         }
 
         fillLeftTableWithModelData(currentPoints,currentPlayer.getColumnNumber());
+        Player::Player &currentPlayer = getCurrentPlayer();
+        ui->currentPlayer->setText(currentPlayer.getPlayerName());
+        ui->statusText->setText(currentPlayer.getPlayerName() + " ist jetzt am Zug");
+
+        if(m_counterRounds > 2){
+            ui->pushButton->setEnabled(false);
+            ui->statusText->setText("Spiel Beendet");
+            ui->rightTableView->setEnabled(true);
+            vector<int> rightTablePlayer1 = m_player1->getSumPointList();
+            vector<int> rightTablePlayer2 = m_player2->getSumPointList();
+            fillRightTableWithModelData(rightTablePlayer1, 0);
+            fillRightTableWithModelData(rightTablePlayer2, 1);
+
+            int resultPlayer1 = m_modelRightTable->item(4,0)->text().toInt();
+            int resultPlayer2 = m_modelRightTable->item(4,1)->text().toInt();
+            if(resultPlayer1 > resultPlayer2){
+                ui->statusText_2->setText(m_player1->getPlayerName() + " hat gewonnen");
+            }else{
+                ui->statusText_2->setText(m_player2->getPlayerName() + " hat gewonnen");
+            }
+        }
+
 
 
     } else {
         cout << "Punkt schon vergeben" << endl;
     }
-}
-
-// Slot - To Do
-void MainWindow::rightTableCellClick(const QModelIndex & index){
-    int row = index.row();
-    int column = index.column();
-    cout << "Klick Spalte/Reihe : " << column << " / " << row << endl;
 }
 
 // Slot
