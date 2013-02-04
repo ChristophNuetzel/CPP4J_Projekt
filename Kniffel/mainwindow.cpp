@@ -115,7 +115,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::rollDices(){
-    for(int i = 0; i < m_cubes.size(); i++){
+    for(uint i = 0; i < m_cubes.size(); i++){
         if( m_fixedCubes[i] != true ){
             m_cubes[i] = generateRandomNumbers();
             setImages(i, m_cubes[i]);
@@ -137,7 +137,7 @@ void MainWindow::rollDices(){
     vector<int> resultPoints = vector<int>(13);
     ui->statusText->setText(currentPlayer.getPlayerName() + " ist am Zug");
 
-    for (int i = 0; i < points.size(); i++){
+    for (uint i = 0; i < points.size(); i++){
         if(userPoints[i] != -1){
             resultPoints[i] = userPoints[i];
         }else{
@@ -147,7 +147,7 @@ void MainWindow::rollDices(){
     cout << "currentPlayer.getColumnNumber(): " << currentPlayer.getColumnNumber() << endl;
     fillLeftTableWithModelData(resultPoints,currentPlayer.getColumnNumber());
 
-    for(int i=0; i < userPoints.size(); i++){
+    for(uint i=0; i < userPoints.size(); i++){
         if(userPoints[i] != -1){
             m_modelLeftTable->item(i,currentPlayer.getColumnNumber())->setEnabled(false);
         } else {
@@ -201,7 +201,7 @@ void MainWindow::insertNamesDialog(){
 }
 
 void MainWindow::fillLeftTableWithModelData(vector<int> v, int column){
-    for(int i = 0; i < v.size(); i++){
+    for(uint i = 0; i < v.size(); i++){
         QString value = QString::number(v[i]);
         QStandardItem *item = new QStandardItem(value);
         m_modelLeftTable->setItem (i, column, item);
@@ -210,7 +210,7 @@ void MainWindow::fillLeftTableWithModelData(vector<int> v, int column){
 }
 
 void MainWindow::fillRightTableWithModelData(vector<int> v, int column){
-    for(int i = 0; i < v.size(); i++){
+    for(uint i = 0; i < v.size(); i++){
         QString value = QString::number(v[i]);
         QStandardItem *item = new QStandardItem(value);
         m_modelRightTable->setItem (i, column, item);
@@ -436,7 +436,7 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
         // updated point list after setting the point value
         currentPoints = currentPlayer.getPointList();
 
-        for (int i = 0; i < currentPoints.size(); i++){
+        for (uint i = 0; i < currentPoints.size(); i++){
             if(currentPoints[i] == -1){
                 currentPoints[i] = 0;
             }
