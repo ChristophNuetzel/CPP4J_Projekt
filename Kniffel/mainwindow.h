@@ -27,7 +27,7 @@ public:
     void setImages(int index, int random);
     void fillLeftTableWithModelData(vector<int> v, int column);
     void deleteAllTableContent();
-    Player::Player getCurrentPlayer();
+    Player::Player &getCurrentPlayer();
     ~MainWindow();
 
 public slots:

@@ -81,8 +81,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //To Do : Change to Player class names
 
+    cout << "KONSTRUKTOR" << endl;
+
     m_counterThrow = 0;
-    m_counterRounds = 0;
+    m_counterRounds = 1;
 
     m_cubes = vector<int>(5);
     m_fixedCubes = vector<bool>(5);
@@ -93,9 +95,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initTable();
     //QString str = QString("skldf");
-    m_player1 = new Player::Player(QString("Thomas"));
-    m_player2 = new Player::Player(QString("Christoph"));
+    m_player1 = new Player::Player(QString("Thomas"), 0);
+    m_player2 = new Player::Player(QString("Christoph"), 1);
 
+    vector<int> zeroInitVector = vector<int>(13);
+
+    for (int i=0; i<13; i++) {
+        zeroInitVector[i] = 0;
+    }
+
+    fillLeftTableWithModelData(zeroInitVector,0);
+    fillLeftTableWithModelData(zeroInitVector,1);
 
 
 }
@@ -119,33 +129,47 @@ void MainWindow::rollDices(){
     ui->dice->setText(QString::number(m_counterThrow));
     vector<int> points = PointCalculator::calculatePointValues(m_cubes);
     ui->leftTableView->setEnabled(true);
-    Player::Player currentPlayer = getCurrentPlayer();
-    //ui->currentPlayer->setText(currentPlayer.getPlayerName());
+
+    Player::Player &currentPlayer = getCurrentPlayer();
+    ui->currentPlayer->setText(currentPlayer.getPlayerName());
 
     vector<int> userPoints = currentPlayer.getPointList();
-    vector<int> resultPoint = vector<int>(13);
+    cout << "userPoints[0] ist: " << userPoints[0] << endl;
+    vector<int> resultPoints = vector<int>(13);
 
     for (int i = 0; i < points.size(); i++){
         if(userPoints[i] != -1){
-            resultPoint[i] = userPoints[i];
+            resultPoints[i] = userPoints[i];
         }else{
-            resultPoint[i] = points[i];
+            resultPoints[i] = points[i];
         }
     }
-    fillLeftTableWithModelData(resultPoint, 1);
+    cout << "currentPlayer.getColumnNumber(): " << currentPlayer.getColumnNumber() << endl;
+    fillLeftTableWithModelData(resultPoints,currentPlayer.getColumnNumber());
 
     for(int i=0; i < userPoints.size(); i++){
         if(userPoints[i] != -1){
-            m_modelLeftTable->item(i,1)->setEnabled(false);
+            m_modelLeftTable->item(i,currentPlayer.getColumnNumber())->setEnabled(false);
         } else {
-            m_modelLeftTable->item(i,1)->setEnabled(true);
+            m_modelLeftTable->item(i,currentPlayer.getColumnNumber())->setEnabled(true);
         }
     }
+
+    cout << "the current number checkpoint" << currentPlayer.getColumnNumber()<< endl;
+    // disable the column of the other players
+    for (int i=0; i<13; i++){
+        if (currentPlayer.getColumnNumber() == 0) {
+            m_modelLeftTable->item(i,1)->setEnabled(false);
+        } else {
+            m_modelLeftTable->item(i,0)->setEnabled(false);
+        }
+    }
+
 }
 
 void MainWindow::setImages(int index, int random){
     QLabel *image1 = new QLabel();
-    cout <<"index: " << index << " random: " << random << endl;
+//    cout <<"index: " << index << " random: " << random << endl;
     switch(random)
     {
     case 1: image1->setPixmap(QPixmap(":/images/w1"));
@@ -180,7 +204,7 @@ void MainWindow::fillLeftTableWithModelData(vector<int> v, int column){
     for(int i = 0; i < v.size(); i++){
         QString value = QString::number(v[i]);
         QStandardItem *item = new QStandardItem(value);
-        cout << "v[i]: " << v[i] << " value: " << value.toStdString() << endl;
+//        cout << "v[i]: " << v[i] << " value: " << value.toStdString() << endl;
         m_modelLeftTable->setItem (i, column, item);
         //m_modelLeftTable->item((i,column))->setText("<font color='red'");
     }
@@ -319,7 +343,7 @@ void MainWindow::deleteAllTableContent(){
     cout << "Delete all table content" << endl;
 }
 
-Player::Player MainWindow::getCurrentPlayer()
+Player::Player &MainWindow::getCurrentPlayer()
 {
     if(m_counterRounds % 2 == 0){
         return *m_player2;
@@ -358,10 +382,14 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
     int row = index.row();
     int column = index.column();
 
-    vector<int> currentPoints = m_player1->getPointList();
+    Player::Player &currentPlayer = getCurrentPlayer();
+
+    vector<int> currentPoints = currentPlayer.getPointList();
+
+
 
     if (currentPoints[row] == -1 ){
-        m_player1->setPointValue(row, (PointCalculator::calculatePointValues(m_cubes)[row]));
+        currentPlayer.setPointValue(row, (PointCalculator::calculatePointValues(m_cubes)[row]));
         cout << "Klick Spalte/Reihe : " << column << " / " << row  << endl;
         m_modelLeftTable->item(row,column)->setEnabled(false);
         m_counterThrow = 0;
@@ -374,6 +402,19 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
         m_box4->setChecked(false);
         m_box5->setChecked(false);
         m_counterRounds++;
+
+        // updated point list after setting the point value
+        currentPoints = currentPlayer.getPointList();
+
+        for (int i = 0; i < currentPoints.size(); i++){
+            if(currentPoints[i] == -1){
+                currentPoints[i] = 0;
+            }
+        }
+
+        fillLeftTableWithModelData(currentPoints,currentPlayer.getColumnNumber());
+
+
     } else {
         cout << "Punkt schon vergeben" << endl;
     }

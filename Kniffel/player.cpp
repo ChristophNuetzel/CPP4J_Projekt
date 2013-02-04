@@ -23,23 +23,33 @@ map<int,int> createPointMap()
     return pointValueMap;
 }
 
-Player::Player(QString playerName)
+Player::Player(QString playerName, int columnNumber)
 {
     this->m_playerName = playerName;
+    this->m_columnNumber = columnNumber;
     this->m_pointValues = createPointMap();
 }
 
 void Player::setPointValue(int orderIndex, int pointValue)
 {
+    cout << "orderIndex ist in Player: " << orderIndex << endl;
+    cout << "pointValue ist in player: " << pointValue<< endl;
+
+
     if (orderIndex < 0 || orderIndex > 12) {
         cout << "The given orderIndex is out of bounds!" << endl;
     }
     this->m_pointValues[orderIndex] = pointValue;
+
+    cout << "this->m_pointValues[orderIndex] ausgegeben nach der Zuweisung: " << this->m_pointValues[orderIndex] << endl;
+
 }
 
 vector<int> Player::getPointList()
 {
     vector<int> resultList = vector<int>(13);
+
+    cout << "in Player::getPointList" << m_pointValues[0] << endl;
 
     for (int i = 0; i < 13; i++)
     {
@@ -49,6 +59,12 @@ vector<int> Player::getPointList()
     return resultList;
 }
 
-QString Player::getPlayerName(){
+QString Player::getPlayerName()
+{
     return m_playerName;
+}
+
+int Player::getColumnNumber()
+{
+    return m_columnNumber;
 }

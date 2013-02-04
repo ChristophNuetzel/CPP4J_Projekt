@@ -13,8 +13,9 @@ class Player
 public:
     /*This constructor creates a new player.
      *The given QString becomes the player's name.
+     *The given int columnNumber is the index of the column in the GUI.
      */
-    Player(QString playerName);
+    Player(QString playerName, int columnNumber);
     
     /*This method returns a vector containing all the current point values for this player.
      *If a point value hasn't been set at the moment the value is -1.
@@ -41,12 +42,16 @@ public:
      *The given int-vaue orderIndex matches the point category as seen in the getPointList-method!
      */
     void setPointValue(int orderIndex, int pointValue);
+
     QString getPlayerName();
+
+    int getColumnNumber();
 
 private:
 
     QString m_playerName;
     std::map<int,int> m_pointValues;
+    int m_columnNumber;
 };
 
 #endif // PLAYER_H
