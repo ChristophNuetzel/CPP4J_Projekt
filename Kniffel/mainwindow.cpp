@@ -207,7 +207,7 @@ void MainWindow::fillLeftTableWithModelData(vector<int> v, int column){
         QString value = QString::number(v[i]);
         QStandardItem *item = new QStandardItem(value);
         m_modelLeftTable->setItem (i, column, item);
-
+        m_modelLeftTable->item(i,column)->setTextAlignment(Qt::AlignCenter);
     }
 }
 
@@ -216,11 +216,21 @@ void MainWindow::fillRightTableWithModelData(vector<int> v, int column){
         QString value = QString::number(v[i]);
         QStandardItem *item = new QStandardItem(value);
         m_modelRightTable->setItem (i, column, item);
+        m_modelRightTable->item(i,column)->setTextAlignment(Qt::AlignCenter);
     }
+    QColor rowColor = Qt::darkRed ;
+    m_modelRightTable->item(4,column)->setData(rowColor, Qt::TextColorRole);
+    QFont fnt;
+    fnt.setPointSize(10);
+    fnt.setBold(true);
+    fnt.setFamily("Segoe UI");
+    m_modelRightTable->item(4,column)->setFont(fnt);
 }
 
 // Initialize Table Content
 void MainWindow::initTable(){
+
+
 
     ui->scrollArea->setStyleSheet("background: rgb(8,138,75); text-align: center");
     ui->pushButton->setStyleSheet("background: rgb(220,220,220)");
@@ -237,7 +247,6 @@ void MainWindow::initTable(){
     ui->rightTableView->setModel(m_modelRightTable);
 
     // Set Table ColumnWidth and Color
-
     ui->leftTableView->setColumnWidth(0, 65);
     ui->leftTableView->setColumnWidth(1, 65);
     ui->leftTableView->setStyleSheet("background: rgb(220,220,220), ; border-style:solid");
@@ -256,7 +265,6 @@ void MainWindow::initTable(){
     QIcon *i4 = new QIcon();
     QIcon *i5 = new QIcon();
     QIcon *i6 = new QIcon();
-
 
     QString *string1 = new QString(":/images/W1");
     QString *string2 = new QString(":/images/W2");
@@ -426,9 +434,10 @@ void MainWindow::leftTableCellClick(const QModelIndex & index ){
         ui->currentPlayer->setText(currentPlayer.getPlayerName());
         ui->statusText->setText(currentPlayer.getPlayerName() + " ist jetzt am Zug");
 
-        if(m_counterRounds > 26){
+        if(m_counterRounds > 2){
             ui->pushButton->setEnabled(false);
             ui->statusText->setText("Spiel Beendet");
+            ui->currentPlayer->setText("Spiel Beendet");
             ui->rightTableView->setEnabled(true);
             vector<int> rightTablePlayer1 = m_player1->getSumPointList();
             vector<int> rightTablePlayer2 = m_player2->getSumPointList();
