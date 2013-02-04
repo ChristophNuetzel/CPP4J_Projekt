@@ -64,7 +64,7 @@ std::vector<int> Player::getSumPointList(){
     vector<int> resultList = vector<int>(5);
 
     //Initalize all with 0
-    for(int i = 0; i < resultList.size(); i++){
+    for(uint i = 0; i < resultList.size(); i++){
         resultList[i] = 0;
     }
 
