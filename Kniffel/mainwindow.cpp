@@ -152,6 +152,8 @@ void MainWindow::rollDices(){
             m_modelLeftTable->item(i,currentPlayer.getColumnNumber())->setEnabled(false);
         } else {
             m_modelLeftTable->item(i,currentPlayer.getColumnNumber())->setEnabled(true);
+            QColor rowColor = Qt::darkRed ;
+            m_modelLeftTable->item(i,currentPlayer.getColumnNumber())->setData(rowColor, Qt::TextColorRole);
         }
     }
 

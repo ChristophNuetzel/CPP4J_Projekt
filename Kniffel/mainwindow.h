@@ -8,6 +8,7 @@
 #include <player.h>
 #include <QCheckBox>
 
+
 using namespace std;
 
 namespace Ui {
