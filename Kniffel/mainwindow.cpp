@@ -345,9 +345,6 @@ void MainWindow::initTable(){
     ui->leftTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->rightTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-    connect(ui->actionInstruction, SIGNAL(triggered()), this, SLOT(showInstructionDialog()));
-    connect(ui->action_Change_Names, SIGNAL(triggered()), this, SLOT(showInsertNamesDialog()));
-    connect(ui->action_New_Game, SIGNAL(triggered()), this, SLOT(startNewGameClicked()));
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(changeCubes()));
     connect(m_box1, SIGNAL(toggled(bool)), this, SLOT(setCheckbox1Slot(bool)));
     connect(m_box2, SIGNAL(toggled(bool)), this, SLOT(setCheckbox2Slot(bool)));
@@ -386,26 +383,6 @@ void MainWindow::changeCubes(){
     cout << "---" << endl;
     //deleteAllTableContent();
 }
-// Slot
-void MainWindow::showInstructionDialog(){
-    InstructionDialog *dialog = new InstructionDialog;
-    dialog->setWindowTitle("Instruction Dialog");
-    dialog->show();
-}
-
-// Slot
-void MainWindow::showInsertNamesDialog(){
-    cout << "Show insert Names Dialog" << endl;
-    insertNamesDialog();
-}
-
-// Slot - To Do
-void MainWindow::startNewGameClicked(){
-    cout << "A new Game was started!" << endl;
-
-}
-
-
 
 // Slot - To Do
 void MainWindow::leftTableCellClick(const QModelIndex & index ){

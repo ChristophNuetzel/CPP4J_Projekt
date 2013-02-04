@@ -32,7 +32,6 @@ public:
     ~MainWindow();
 
 public slots:
-    void showInstructionDialog();
     void changeCubes();
     void setCheckbox1Slot(bool);
     void setCheckbox2Slot(bool);
@@ -40,8 +39,6 @@ public slots:
     void setCheckbox4Slot(bool);
     void setCheckbox5Slot(bool);
     void leftTableCellClick(const QModelIndex &);
-    void startNewGameClicked();
-    void showInsertNamesDialog();
     
 private:
     Ui::MainWindow *ui;

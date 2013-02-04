@@ -10,19 +10,19 @@
     <x>0</x>
     <y>0</y>
     <width>585</width>
-    <height>603</height>
+    <height>565</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>585</width>
-    <height>603</height>
+    <height>565</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>585</width>
-    <height>603</height>
+    <height>565</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -47,13 +47,13 @@
          <x>0</x>
          <y>0</y>
          <width>563</width>
-         <height>561</height>
+         <height>523</height>
         </rect>
        </property>
        <widget class="QWidget" name="gridLayoutWidget">
         <property name="geometry">
          <rect>
-          <x>250</x>
+          <x>257</x>
           <y>120</y>
           <width>236</width>
           <height>55</height>
@@ -250,7 +250,7 @@
        <widget class="QGroupBox" name="groupBox">
         <property name="geometry">
          <rect>
-          <x>250</x>
+          <x>257</x>
           <y>187</y>
           <width>281</width>
           <height>101</height>
@@ -297,9 +297,9 @@
        <widget class="QPushButton" name="pushButton">
         <property name="geometry">
          <rect>
-          <x>440</x>
+          <x>457</x>
           <y>298</y>
-          <width>91</width>
+          <width>81</width>
           <height>31</height>
          </rect>
         </property>
@@ -333,21 +333,6 @@
      <height>20</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_Setting">
-    <property name="title">
-     <string>&amp;Game  Settings</string>
-    </property>
-    <addaction name="action_New_Game"/>
-    <addaction name="separator"/>
-   </widget>
-   <widget class="QMenu" name="menuPlayers">
-    <property name="title">
-     <string>&amp;Players</string>
-    </property>
-    <addaction name="action_Change_Names"/>
-   </widget>
-   <addaction name="menu_Setting"/>
-   <addaction name="menuPlayers"/>
   </widget>
   <action name="action_New_Game">
    <property name="text">
